@@ -1,11 +1,11 @@
 
 import React, { useRef, useState } from 'react';
-import { motion, useScroll, useMotionValueEvent, useMotionValue, useMotionTemplate } from 'framer-motion';
+import { motion, useScroll, useMotionValueEvent, useMotionValue, useMotionTemplate, AnimatePresence } from 'framer-motion';
 import Magnetic from './Magnetic';
 import VinylLogo from './VinylLogo';
 
 // Optimized Spotlight Link
-const SpotlightLink: React.FC<{ text: string; href: string; onClick?: (e: React.MouseEvent) => void }> = ({ text, href, onClick }) => {
+const SpotlightLink: React.FC<{ text: string; href: string; onClick?: (e: React.MouseEvent) => void; className?: string }> = ({ text, href, onClick, className }) => {
     const ref = useRef<HTMLAnchorElement>(null);
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
@@ -27,20 +27,14 @@ const SpotlightLink: React.FC<{ text: string; href: string; onClick?: (e: React.
                 href={href}
                 onClick={onClick}
                 onMouseMove={handleMouseMove}
-                // 🟢 UPDATED: Font size text-[10px], Color text-gray-600
-                className="relative px-4 py-2 text-[10px] font-bold tracking-widest cursor-pointer block group overflow-hidden rounded-lg text-gray-600"
+                className={`relative px-4 py-2 text-[10px] font-bold tracking-widest cursor-pointer block group overflow-hidden rounded-lg text-gray-600 ${className || ''}`}
                 whileHover={{ opacity: 1, color: "#000000" }} // Darken on hover
             >
                 {/* Spotlight Gradient Background - Zero React Renders */}
                 <motion.div 
-                    className="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100"
+                    className="pointer-events-none absolute -inset-px transition duration-300 opacity-0 group-hover:opacity-100 hidden md:block"
                     style={{ background: gradientBg }}
                 />
-                {/* 
-                   FIX: Removed HyperText component here.
-                   HyperText relies on viewport detection which can fail for fixed elements, causing text to stay invisible (opacity: 0).
-                   Using standard span ensures text is always visible.
-                */}
                 <span className="relative z-10 block">{text}</span>
             </motion.a>
         </Magnetic>
@@ -50,6 +44,7 @@ const SpotlightLink: React.FC<{ text: string; href: string; onClick?: (e: React.
 const Navbar: React.FC = () => {
   const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Debounced scroll update or simple threshold check is fine
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -67,6 +62,7 @@ const Navbar: React.FC = () => {
 
   const handleScroll = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
+    setIsMobileMenuOpen(false); // Close mobile menu on click
     const element = document.querySelector(id);
     if (element) {
         const offset = 80;
@@ -83,8 +79,9 @@ const Navbar: React.FC = () => {
   };
 
   return (
+    <>
     <motion.nav
-      className="fixed top-0 left-0 w-full z-50 px-8 py-6 flex justify-between items-center transition-all duration-500 pointer-events-none"
+      className="fixed top-0 left-0 w-full z-50 px-6 py-6 md:px-8 flex justify-between items-center transition-all duration-500 pointer-events-none"
       initial={{ opacity: 1 }}
       animate={{ 
         backgroundColor: isScrolled ? "rgba(255,255,255,0.01)" : "transparent",
@@ -110,7 +107,8 @@ const Navbar: React.FC = () => {
              </Magnetic>
           </div>
 
-          <div className="flex items-center space-x-4">
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center space-x-4">
             {navLinks.map((link) => (
                 <SpotlightLink 
                     key={link.name} 
@@ -126,15 +124,66 @@ const Navbar: React.FC = () => {
                     onClick={(e) => handleScroll(e, "#contact")}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    // 🟢 UPDATED: Font size text-[10px], Color text-gray-600
                     className="ml-4 px-6 py-2 text-[10px] font-bold tracking-widest text-gray-600 border border-black/10 rounded-full backdrop-blur-md bg-white/30 shadow-sm hover:bg-white/50 transition-all block hover:text-black"
                 >
                     <span>联系 CONTACT</span>
                 </motion.a>
             </Magnetic>
           </div>
+
+          {/* Mobile Hamburger Button */}
+          <div className="md:hidden flex items-center">
+              <button 
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="w-10 h-10 flex flex-col items-center justify-center gap-1.5 bg-white/50 backdrop-blur-md border border-gray-200 rounded-full outline-none z-[100]"
+              >
+                  <motion.span 
+                    animate={isMobileMenuOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
+                    className="w-4 h-px bg-black block" 
+                  />
+                  <motion.span 
+                    animate={isMobileMenuOpen ? { opacity: 0 } : { opacity: 1 }}
+                    className="w-4 h-px bg-black block" 
+                  />
+                  <motion.span 
+                    animate={isMobileMenuOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+                    className="w-4 h-px bg-black block" 
+                  />
+              </button>
+          </div>
       </div>
     </motion.nav>
+
+    {/* Mobile Menu Overlay */}
+    <AnimatePresence>
+        {isMobileMenuOpen && (
+            <motion.div 
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="fixed inset-0 z-[40] bg-white pt-24 px-6 md:hidden flex flex-col gap-6 items-center shadow-xl"
+            >
+                {navLinks.map((link) => (
+                    <a
+                        key={link.name}
+                        href={link.id}
+                        onClick={(e) => handleScroll(e, link.id)}
+                        className="text-lg font-albert-black text-black tracking-widest py-2"
+                    >
+                        {link.name}
+                    </a>
+                ))}
+                <a
+                    href="#contact"
+                    onClick={(e) => handleScroll(e, "#contact")}
+                    className="text-lg font-albert-black text-[#D40411] tracking-widest py-2"
+                >
+                    联系 CONTACT
+                </a>
+            </motion.div>
+        )}
+    </AnimatePresence>
+    </>
   );
 };
 

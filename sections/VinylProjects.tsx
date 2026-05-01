@@ -1697,49 +1697,90 @@ const VinylProjects: React.FC = () => {
             ref={containerRef}
             className="w-full relative bg-white" 
             onMouseMove={handleMouseMove}
-            style={{ height: '550vh' }}
         >
-             <div id="projects-deck" className="absolute top-0" />
+             {/* --- MOBILE LAYOUT (Single Column) --- */}
+             <div className="w-full bg-white px-6 py-20 flex flex-col items-center md:hidden relative z-50">
+                <h2 className="text-4xl font-albert-black text-gray-200 tracking-tighter mb-8 self-start">项目案例</h2>
 
-             <style>{`
-                .floating-scrollbar::-webkit-scrollbar {
-                    width: 6px;
-                    height: 6px; /* Added height for horizontal scrollbar */
-                }
-                .floating-scrollbar::-webkit-scrollbar-track {
-                    background: transparent; 
-                }
-                .floating-scrollbar::-webkit-scrollbar-thumb {
-                    background-color: rgba(255, 255, 255, 0.3); /* Slightly more visible */
-                    border-radius: 99px;
-                }
-                .floating-scrollbar::-webkit-scrollbar-thumb:hover {
-                    background-color: rgba(255, 255, 255, 0.5);
-                }
-                /* For Firefox */
-                .floating-scrollbar {
-                    scrollbar-width: thin;
-                    scrollbar-color: rgba(255,255,255,0.3) transparent;
-                }
-             `}</style>
-             
-             {/* 🟢 NEW: SVG Filters for Recolor */}
-             <svg style={{ width: 0, height: 0, position: 'absolute' }}>
-                {Object.values(PROJECT_TINTS).map(filter => (
-                    <filter key={filter.id} id={filter.id} colorInterpolationFilters="sRGB">
-                       {/* Maps all colors to the target RGB while preserving alpha */}
-                       <feColorMatrix 
-                            type="matrix" 
-                            values={`0 0 0 0 ${filter.r}   0 0 0 0 ${filter.g}   0 0 0 0 ${filter.b}   0 0 0 1 0`} 
-                       />
-                    </filter>
-                ))}
-             </svg>
+                <div className="flex flex-col gap-12 w-full">
+                    {PROJECTS_DATA.map((project: any) => (
+                        <div 
+                            key={project.id}
+                            className="w-full bg-white border border-gray-200 rounded-[1.5rem] overflow-hidden shadow-md flex flex-col cursor-pointer hover:shadow-lg transition-shadow"
+                            onClick={() => setSelectedProject(project)}
+                        >
+                            <div className="w-full aspect-[4/3] bg-gray-100 relative">
+                                <img src={project.img} alt={project.title} className="w-full h-full object-cover" />
+                                <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-gray-600 border border-gray-200 shadow-sm">
+                                    {project.year}
+                                </div>
+                            </div>
+                            <div className="p-6 flex flex-col gap-3">
+                                <h3 className="text-2xl font-albert-black leading-none text-black" style={{ color: project.color }}>
+                                    {project.title}
+                                </h3>
+                                <div className="text-sm font-bold text-gray-500 uppercase tracking-widest bg-gray-100 self-start px-2 py-1 rounded-md">
+                                    {project.label}
+                                </div>
+                                <p className="text-sm text-gray-500 font-albert-light line-clamp-3">
+                                    {project.desc}
+                                </p>
+                                <div className="flex items-center gap-2 mt-2">
+                                    {project.tools.map((tool: string, i: number) => {
+                                        const toolUrl = TOOL_ICONS[tool];
+                                        return toolUrl ? (
+                                            <div key={i} className="w-8 h-8 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center p-1.5 shadow-sm">
+                                                <img src={toolUrl} alt={tool} className="w-full h-full object-contain" />
+                                            </div>
+                                        ) : null;
+                                    })}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+             </div>
 
-             <motion.div 
-                className="sticky top-0 w-full h-screen overflow-hidden flex items-center justify-center bg-white will-change-transform"
-             >
-                 <div className="absolute inset-0 flex items-center justify-center perspective-2000">
+             {/* --- DESKTOP LAYOUT (3D) --- */}
+             <div className="hidden md:block w-full h-[550vh]">
+                 <div id="projects-deck" className="absolute top-0" />
+                 
+                 <style>{`
+                    .floating-scrollbar::-webkit-scrollbar {
+                        width: 6px;
+                        height: 6px;
+                    }
+                    .floating-scrollbar::-webkit-scrollbar-track {
+                        background: transparent; 
+                    }
+                    .floating-scrollbar::-webkit-scrollbar-thumb {
+                        background-color: rgba(255, 255, 255, 0.3);
+                        border-radius: 99px;
+                    }
+                    .floating-scrollbar::-webkit-scrollbar-thumb:hover {
+                        background-color: rgba(255, 255, 255, 0.5);
+                    }
+                    .floating-scrollbar {
+                        scrollbar-width: thin;
+                        scrollbar-color: rgba(255,255,255,0.3) transparent;
+                    }
+                 `}</style>
+                 
+                 <svg style={{ width: 0, height: 0, position: 'absolute' }}>
+                    {Object.values(PROJECT_TINTS).map(filter => (
+                        <filter key={filter.id} id={filter.id} colorInterpolationFilters="sRGB">
+                           <feColorMatrix 
+                                type="matrix" 
+                                values={`0 0 0 0 ${filter.r}   0 0 0 0 ${filter.g}   0 0 0 0 ${filter.b}   0 0 0 1 0`} 
+                           />
+                        </filter>
+                    ))}
+                 </svg>
+
+                 <motion.div 
+                    className="sticky top-0 w-full h-screen overflow-hidden flex items-center justify-center bg-white will-change-transform"
+                 >
+                     <div className="absolute inset-0 flex items-center justify-center perspective-2000">
                     <motion.div
                         className="relative w-full max-w-[1600px] will-change-transform transform-gpu"
                         style={{
@@ -1911,12 +1952,13 @@ const VinylProjects: React.FC = () => {
                     </motion.div>
                  </div>
              </motion.div>
+             </div>
 
              {/* MODAL WINDOW (Scaled to 60%) */}
              {createPortal(
                 <AnimatePresence>
                     {selectedProject && (
-                        <div className="fixed inset-0 z-[100] flex items-center justify-center perspective-2000">
+                        <div className="fixed inset-0 z-[100] flex items-center justify-center perspective-2000 px-4 md:px-0">
                             {/* Backdrop - Lights Off Effect (Darker opacity) */}
                             <motion.div 
                                 initial={{ opacity: 0 }} 
@@ -1931,7 +1973,7 @@ const VinylProjects: React.FC = () => {
                                 exit={{ y: 50, opacity: 0, scale: 0.9 }} 
                                 transition={{ type: "spring", damping: 25, stiffness: 300 }}
                                 // 🟢 MODAL SIZE: Fixed 1000px on Desktop
-                                className={`relative w-[95vw] md:w-[1000px] h-[90vh] md:h-[95vh] rounded-[2rem] overflow-hidden flex flex-col pointer-events-auto shadow-2xl ${
+                                className={`relative w-full max-w-[1000px] h-[90vh] md:h-[95vh] rounded-[2rem] overflow-hidden flex flex-col pointer-events-auto shadow-2xl ${
                                     selectedProject.layout === 'gallery' || selectedProject.layout === 'horizontal-scroll' 
                                         ? 'bg-black border border-white/20' 
                                         : 'bg-white/95 border border-white/50'
@@ -1946,7 +1988,7 @@ const VinylProjects: React.FC = () => {
                                 <div className="absolute inset-0 rounded-[2rem] pointer-events-none z-50 border border-white/10" />
                                 <button 
                                     onClick={() => setSelectedProject(null)} 
-                                    className={`absolute top-6 right-6 z-[60] w-10 h-10 flex items-center justify-center rounded-full transition-colors border shadow-lg group ${
+                                    className={`absolute top-4 right-4 md:top-6 md:right-6 z-[60] w-10 h-10 flex items-center justify-center rounded-full transition-colors border shadow-lg group ${
                                         selectedProject.layout === 'gallery' || selectedProject.layout === 'horizontal-scroll'
                                             ? 'bg-white/10 hover:bg-white/20 border-white/20 text-white'
                                             : 'bg-white/90 hover:bg-white border-gray-200 text-black'
@@ -1978,7 +2020,7 @@ const VinylProjects: React.FC = () => {
                                                 <div className="mb-8 relative z-10">
                                                     {/* Scaled Down Fonts */}
                                                     <h1 className="text-3xl md:text-5xl font-albert-black text-black tracking-tight mb-3">{selectedProject.title}</h1>
-                                                    <div className="flex items-center gap-3 text-xs font-bold tracking-widest text-gray-500 uppercase">
+                                                    <div className="flex items-center gap-2 md:gap-3 text-xs font-bold tracking-widest text-gray-500 uppercase flex-wrap">
                                                         <span className="px-2 py-0.5 bg-black text-white rounded-full">{selectedProject.year}</span>
                                                         <span>{selectedProject.client || 'Client'}</span>
                                                         <span className="w-1 h-1 bg-gray-400 rounded-full" />

@@ -355,13 +355,67 @@ const Skills: React.FC = () => {
         ref={containerRef}
         className="relative w-full bg-white overflow-hidden" 
         onMouseMove={handleMouseMove}
-        style={{ height: '150vh' }}
+        style={{ height: 'auto', minHeight: '100vh' }}
     >
-      <motion.div 
-         className="sticky top-0 w-full h-screen overflow-hidden flex items-center justify-center will-change-transform"
-         onViewportEnter={() => setHasEntered(true)}
-      >
-        <div className="absolute inset-0 flex items-center justify-center perspective-2000">
+        {/* --- MOBILE LAYOUT (Single Column) --- */}
+        <div className="w-full bg-white px-6 py-20 flex flex-col items-center md:hidden relative z-50">
+            <h2 className="text-4xl font-albert-black text-gray-200 tracking-tighter mb-8">核心能力</h2>
+
+            <div className="flex flex-col w-full gap-4">
+                {skills.map((skill, idx) => (
+                    <div 
+                        key={idx}
+                        className="w-full bg-white border border-gray-200 rounded-[1.5rem] p-6 shadow-sm flex flex-col gap-4"
+                    >
+                        <div className="flex justify-between items-center whitespace-nowrap gap-4">
+                            <h3 className="text-2xl font-albert-black text-black tracking-tight leading-none">{skill.title}</h3>
+                            <span className="text-xl font-albert-black" style={{ color: skill.color }}>{skill.percentText}</span>
+                        </div>
+                        
+                        <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                            <div 
+                                className="h-full rounded-full"
+                                style={{ backgroundColor: skill.color, width: `${skill.percent}%` }}
+                            />
+                        </div>
+
+                        <div className="text-xs font-mono text-gray-500 mt-2">
+                            {skill.tags}
+                        </div>
+                        
+                        {(skill.videoUrl || (skill as any).previewImg) ? (
+                            <div className="w-full aspect-video rounded-xl overflow-hidden mt-2 border border-gray-100 relative">
+                                {skill.videoUrl ? (
+                                    <video src={skill.videoUrl} autoPlay loop muted playsInline className="w-full h-full object-cover" />
+                                ) : (
+                                    <img src={(skill as any).previewImg} className="w-full h-full object-cover" />
+                                )}
+                                <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.05)] pointer-events-none" />
+                            </div>
+                        ) : null}
+                    </div>
+                ))}
+            </div>
+
+            <h3 className="text-2xl font-hanchanyuanyuan text-black mt-16 mb-6 w-full px-2">常用软件</h3>
+            
+            <div className="grid grid-cols-3 gap-4 w-full">
+                {softwares.map((sw, idx) => (
+                    <div key={idx} className="flex flex-col items-center gap-3 bg-gray-50 p-4 rounded-[1.5rem] border border-gray-100">
+                        <img src={sw.iconUrl} alt={sw.name} className="w-12 h-12 object-contain" />
+                        <span className="text-xs font-albert-black text-gray-600 truncate max-w-full">{sw.name}</span>
+                    </div>
+                ))}
+            </div>
+        </div>
+
+        {/* --- DESKTOP LAYOUT (3D) --- */}
+        <div className="hidden md:block w-full h-[150vh]">
+            <motion.div 
+                className="sticky top-0 w-full h-screen overflow-hidden flex items-center justify-center will-change-transform"
+                onViewportEnter={() => setHasEntered(true)}
+            >
+                <div className="absolute inset-0 flex items-center justify-center perspective-2000">
             <motion.div
                 className="relative w-full max-w-[1600px] will-change-transform"
                 style={{
@@ -536,7 +590,8 @@ const Skills: React.FC = () => {
 
             </motion.div>
         </div>
-      </motion.div>
+        </motion.div>
+        </div>
     </section>
   );
 };

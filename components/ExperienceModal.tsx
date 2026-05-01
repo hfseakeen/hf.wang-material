@@ -228,11 +228,11 @@ const ExperienceModal: React.FC<ExperienceModalProps> = ({ isOpen, onClose }) =>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
             </motion.button>
 
-            <div className="relative z-10 w-full max-w-[1400px] h-[85vh] flex flex-col md:flex-row gap-12 items-center justify-center pointer-events-none">
+            <div className="relative z-10 w-full max-w-[1400px] h-[95vh] md:h-[85vh] flex flex-col md:flex-row gap-6 md:gap-12 items-center justify-center pointer-events-none mt-8 md:mt-0">
                 
                 {/* LEFT: Photo Card (Thrown In Effect) */}
                 <motion.div
-                    className="flex flex-col items-center pointer-events-auto"
+                    className="flex flex-col items-center pointer-events-auto shrink-0"
                     initial={{ x: -300, rotate: -25, opacity: 0 }}
                     animate={{ x: 0, rotate: -3, opacity: 1 }}
                     exit={{ x: -300, rotate: -25, opacity: 0 }}
@@ -240,17 +240,17 @@ const ExperienceModal: React.FC<ExperienceModalProps> = ({ isOpen, onClose }) =>
                 >
                     <AppleGlassCard 
                         tiltIntensity={10}
-                        className="w-[320px] h-[420px] md:w-[380px] md:h-[480px] rounded-[2.5rem] bg-white/20 backdrop-blur-xl border border-white/40 shadow-2xl p-3"
+                        className="w-[180px] h-[240px] md:w-[380px] md:h-[480px] rounded-[1.5rem] md:rounded-[2.5rem] bg-white/20 backdrop-blur-xl border border-white/40 shadow-2xl p-2 md:p-3"
                     >
                          <div 
-                            className="w-full h-full rounded-[2rem] overflow-hidden relative cursor-pointer group bg-gray-200"
+                            className="w-full h-full rounded-[1.2rem] md:rounded-[2rem] overflow-hidden relative cursor-pointer group bg-gray-200"
                             onClick={() => fileInputRef.current?.click()}
                          >
                             <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileChange} />
                             <img src={photoUrl} alt="Profile" className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" />
                             
                             {/* Inner Border/Highlight */}
-                            <div className="absolute inset-0 border border-white/20 rounded-[2rem] pointer-events-none" />
+                            <div className="absolute inset-0 border border-white/20 rounded-[1.2rem] md:rounded-[2rem] pointer-events-none" />
                             <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent opacity-50 pointer-events-none" />
                          </div>
                     </AppleGlassCard>
@@ -259,16 +259,16 @@ const ExperienceModal: React.FC<ExperienceModalProps> = ({ isOpen, onClose }) =>
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5 }}
-                        className="mt-8 text-center"
+                        className="mt-4 md:mt-8 text-center"
                     >
-                        <h2 className="text-4xl font-siyuan font-bold text-black tracking-tight mb-2">王海锋</h2>
-                        <p className="text-lg font-mono text-gray-500 tracking-widest">WANG HAIFENG</p>
+                        <h2 className="text-2xl md:text-4xl font-siyuan font-bold text-black tracking-tight mb-1 md:mb-2">王海锋</h2>
+                        <p className="text-xs md:text-lg font-mono text-gray-500 tracking-widest">WANG HAIFENG</p>
                     </motion.div>
                 </motion.div>
 
                 {/* RIGHT: Timeline Container (Apple Glass) */}
                 <motion.div 
-                    className="w-full max-w-4xl h-full flex-1 pointer-events-auto"
+                    className="w-full max-w-4xl h-full flex-1 pointer-events-auto overflow-hidden"
                     initial={{ opacity: 0, x: 100 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 50 }}
@@ -276,21 +276,21 @@ const ExperienceModal: React.FC<ExperienceModalProps> = ({ isOpen, onClose }) =>
                 >
                     <AppleGlassCard 
                         tiltIntensity={5}
-                        className="w-full h-full rounded-[3rem] bg-white/20 backdrop-blur-xl border border-white/40 shadow-[0_20px_60px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col"
+                        className="w-full h-[60vh] md:h-full rounded-[2rem] md:rounded-[3rem] bg-white/20 backdrop-blur-xl border border-white/40 shadow-[0_20px_60px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col"
                     >
                          {/* Header */}
-                         <div className="p-10 md:p-12 pb-6 border-b border-white/20 flex-shrink-0 bg-white/10 backdrop-blur-md">
-                            <h2 className="text-4xl md:text-5xl font-hanchanyuanyuan text-black tracking-tight">
+                         <div className="p-6 md:p-12 pb-4 md:pb-6 border-b border-white/20 flex-shrink-0 bg-white/10 backdrop-blur-md">
+                            <h2 className="text-2xl md:text-5xl font-hanchanyuanyuan text-black tracking-tight">
                                 履历时间轴
                             </h2>
                          </div>
 
                          {/* Scrollable List */}
-                         <div className="flex-1 overflow-y-auto p-8 md:p-12 custom-scrollbar relative">
+                         <div className="flex-1 overflow-y-auto p-4 md:p-12 custom-scrollbar relative">
                              {/* Vertical Line */}
-                             <div className="absolute left-[41px] md:left-[61px] top-12 bottom-12 w-px bg-gradient-to-b from-transparent via-gray-300/50 to-transparent" />
+                             <div className="absolute left-[31px] md:left-[61px] top-6 bottom-12 w-px bg-gradient-to-b from-transparent via-gray-300/50 to-transparent" />
 
-                             <div className="space-y-10">
+                             <div className="space-y-6 md:space-y-10">
                                 {mixedData.map((item, index) => (
                                     <motion.div
                                         key={item.id}

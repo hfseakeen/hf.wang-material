@@ -250,9 +250,45 @@ const Contact: React.FC = () => {
         <section 
             ref={containerRef}
             className="relative w-full bg-white overflow-hidden"
-            style={{ height: '100vh' }}
+            style={{ height: 'auto', minHeight: '100vh' }}
         >
-            <div className="w-full h-full flex items-center justify-center perspective-2000">
+            {/* --- MOBILE LAYOUT --- */}
+            <div className="w-full bg-white px-6 py-20 flex flex-col items-center md:hidden relative z-50">
+                <h2 className="text-4xl font-albert-black text-gray-200 tracking-tighter mb-12 self-start">联系我</h2>
+                
+                <div className="flex flex-col gap-4 w-full">
+                    {CONTACT_CARDS.map((card, idx) => (
+                        <div 
+                            key={card.id}
+                            className="w-full bg-white border border-gray-200 rounded-[1.5rem] p-6 shadow-sm flex flex-col items-center gap-4 hover:shadow-md transition-shadow active:scale-[0.98]"
+                            onClick={(e) => {
+                                navigator.clipboard.writeText(card.value);
+                                alert("已复制 " + card.title + ": " + card.value);
+                            }}
+                        >
+                            <div className="w-12 h-12 text-black/80 flex justify-center items-center">
+                                {card.icon}
+                            </div>
+                            
+                            {card.qrCode && (
+                                <div className="w-48 h-48 bg-white p-2 border border-gray-100 rounded-xl shadow-sm my-2">
+                                    <img src={card.qrCode} alt="QR Code" className="w-full h-full object-cover rounded-lg" />
+                                </div>
+                            )}
+                            
+                            <div className="text-center">
+                                <h3 className="text-xs font-bold tracking-widest text-gray-400 mb-1 uppercase">{card.title}</h3>
+                                <p className="text-xl font-albert-black text-black leading-tight select-all">{card.value}</p>
+                            </div>
+                            
+                            <span className="text-xs text-blue-500 font-bold mt-2">点击复制</span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* --- DESKTOP LAYOUT --- */}
+            <div className="hidden md:flex w-full h-[100vh] items-center justify-center perspective-2000">
                 {/* Floor Container */}
                 <motion.div
                     className="relative w-full max-w-[1400px] h-full transform-gpu"

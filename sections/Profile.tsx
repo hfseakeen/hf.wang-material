@@ -260,7 +260,7 @@ const ExperienceModalCard: React.FC<{ selectedExp: any, onClose: () => void }> =
             animate={{ rotateY: 0, opacity: 1, scale: 1 }}
             exit={{ rotateY: -90, opacity: 0, scale: 0.9 }}
             transition={{ type: "spring", stiffness: 80, damping: 15 }}
-            className="relative w-full max-w-2xl transform-gpu overflow-hidden group"
+            className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto custom-scrollbar transform-gpu group"
             style={{ 
                 transformStyle: "preserve-3d",
                 borderRadius: '2.5rem',
@@ -311,10 +311,10 @@ const ExperienceModalCard: React.FC<{ selectedExp: any, onClose: () => void }> =
                 }} 
             />
             <div className="absolute inset-0 bg-white/40 backdrop-blur-[60px] saturate-150 rounded-[2.5rem] shadow-2xl" />
-            <div className="relative z-20 p-10 md:p-14">
+            <div className="relative z-20 p-6 md:p-14">
                 <button 
                     onClick={onClose}
-                    className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full bg-black/5 hover:bg-black/10 transition-colors border border-black/5 backdrop-blur-sm text-black/60"
+                    className="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 flex items-center justify-center rounded-full bg-black/5 hover:bg-black/10 transition-colors border border-black/5 backdrop-blur-sm text-black/60"
                 >
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
@@ -506,17 +506,84 @@ const Profile: React.FC<{ forceOpenModal?: boolean, setForceOpenModal?: (open: b
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-5deg", "5deg"]);
   const translateX = useTransform(mouseXSpring, [-0.5, 0.5], ["-1%", "1%"]);
 
-  return (
-    <section 
-        ref={containerRef}
-        className="relative w-full bg-white overflow-hidden" 
-        onMouseMove={handleMouseMove}
-        style={{ height: '140vh' }}
-    >
-      <motion.div 
-         className="sticky top-0 w-full h-screen overflow-hidden flex items-center justify-center will-change-transform"
-      >
-        <div className="absolute inset-0 flex items-center justify-center perspective-2000">
+    return (
+        <section 
+            ref={containerRef}
+            className="relative w-full bg-white overflow-hidden" 
+            onMouseMove={handleMouseMove}
+            style={{ height: 'auto', minHeight: '100vh' }}
+        >
+            {/* --- MOBILE LAYOUT (Single Column) --- */}
+            <div className="w-full bg-white px-6 py-20 flex flex-col items-center md:hidden relative z-50">
+                <h2 className="text-4xl font-albert-black text-gray-200 tracking-tighter mb-8">个人简历</h2>
+                
+                <div className="w-full max-w-sm aspect-[3/4] rounded-[1.5rem] overflow-hidden mb-8 shadow-xl">
+                    <img 
+                        src="https://github.com/hfseakeen/hf.wang-database/blob/main/images/grxx/zjz.webp?raw=true" 
+                        alt="Profile" 
+                        className="w-full h-full object-cover"
+                    />
+                </div>
+
+                <div 
+                    className="text-center mb-12 hover:scale-105 transition-transform"
+                    onClick={() => setIsFullModalOpen(true)}
+                >
+                    <h2 className="text-5xl font-siyuan font-bold text-black leading-none mb-4 tracking-tighter">
+                        王海锋
+                    </h2>
+                    <div className="flex flex-col items-center gap-2 text-sm font-mono text-gray-500 mb-4">
+                        <span>8年工作经验 | 杭州</span>
+                        <span>资深摄影师 / 设计师</span>
+                    </div>
+                    <div className="flex items-center justify-center gap-2 text-xs font-bold tracking-widest text-[#D40411]">
+                        点击查看完整履历
+                    </div>
+                </div>
+
+                <div className="w-full flex justify-between items-center mb-6">
+                    <h3 className="text-2xl font-hanchanyuanyuan text-black">核心经历</h3>
+                </div>
+
+                <div className="flex flex-col w-full gap-6">
+                    {experienceData.map((item, idx) => (
+                        <div 
+                            key={item.id}
+                            onClick={() => setSelectedExp(item)}
+                            className="w-full bg-gray-50 border border-gray-200 rounded-[1.5rem] p-6 shadow-sm hover:shadow-md transition-shadow"
+                        >
+                            <div className="flex justify-between items-start mb-4">
+                                <span className="font-albert-black text-xl text-black">
+                                    {item.company}
+                                </span>
+                                <span className="text-xs font-bold text-gray-500 whitespace-nowrap bg-white px-2 py-1 rounded-md border border-gray-200">
+                                    {item.year}
+                                </span>
+                            </div>
+                            <div className="text-gray-600 font-albert-light text-sm flex items-center gap-2 mb-3">
+                                {item.role}
+                            </div>
+                            <p className="text-sm text-gray-500 font-albert-light leading-snug line-clamp-3">
+                                {item.desc}
+                            </p>
+                            <div className="flex flex-wrap gap-2 mt-4 text-[10px]">
+                                {item.tags.map((tag:string, i:number) => (
+                                    <span key={i} className="px-2 py-1 bg-white border border-gray-200 rounded-md text-gray-500">
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* --- DESKTOP LAYOUT (3D) --- */}
+            <div className="hidden md:block w-full h-[140vh]">
+                <motion.div 
+                    className="sticky top-0 w-full h-screen overflow-hidden flex items-center justify-center will-change-transform"
+                >
+                    <div className="absolute inset-0 flex items-center justify-center perspective-2000">
             <motion.div
                 className="relative w-full max-w-[1600px] will-change-transform transform-gpu"
                 style={{
@@ -615,10 +682,11 @@ const Profile: React.FC<{ forceOpenModal?: boolean, setForceOpenModal?: (open: b
                 </div>
 
             </motion.div>
-        </div>
-      </motion.div>
+                    </div>
+                </motion.div>
+            </div>
 
-      {/* FULL SCREEN EXPERIENCE MODAL (2nd LEVEL PAGE) */}
+            {/* FULL SCREEN EXPERIENCE MODAL (2nd LEVEL PAGE) */}
       <ExperienceModal 
         isOpen={isFullModalOpen} 
         onClose={() => setIsFullModalOpen(false)} 

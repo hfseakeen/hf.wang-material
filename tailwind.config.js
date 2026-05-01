@@ -7,12 +7,12 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'albert-black': ['"Albert Sans"', 'sans-serif'],
-        'albert-bold': ['"Albert Sans"', 'sans-serif'],
-        'albert-semibold': ['"Albert Sans"', 'sans-serif'],
-        'albert-regular': ['"Albert Sans"', 'sans-serif'],
-        'albert-light': ['"Albert Sans"', 'sans-serif'],
-        'hanchanyuanyuan': ['"M PLUS Rounded 1c"', 'sans-serif'],
+        'albert-black': ['"MiSans Global"', '"MiSans"', 'system-ui', 'sans-serif'],
+        'albert-bold': ['"MiSans Global"', '"MiSans"', 'system-ui', 'sans-serif'],
+        'albert-semibold': ['"MiSans Global"', '"MiSans"', 'system-ui', 'sans-serif'],
+        'albert-regular': ['"MiSans Global"', '"MiSans"', 'system-ui', 'sans-serif'],
+        'albert-light': ['"MiSans Global"', '"MiSans"', 'system-ui', 'sans-serif'],
+        'hanchanyuanyuan': ['"MiSans Global"', '"MiSans"', 'system-ui', 'sans-serif'],
       },
     },
   },

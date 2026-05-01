@@ -1,5 +1,5 @@
 
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState, useMemo, useEffect } from 'react';
 import { motion, useTransform, useMotionValue, useSpring, useScroll, AnimatePresence } from 'framer-motion';
 import Spotlight3D from '../components/Spotlight3D';
 import PatternPlaceholder from '../components/PatternPlaceholder';
@@ -13,7 +13,7 @@ import Magnetic from '../components/Magnetic';
 const HERO_SCALE = 0.8; 
 
 // 🟢 2. CARD SIZE: Base dimensions
-const CARD_SIZE_CLASSES = "w-[250px] md:w-[300px]"; 
+const CARD_SIZE_CLASSES = "w-[150px] sm:w-[200px] md:w-[300px]"; 
 
 // 🟢 3. SCATTERED LAYOUT CONFIGURATION (随机洒落布局)
 // The goal is to look naturally messy, not geometric.
@@ -120,18 +120,28 @@ const DEPTHS = {
 
 const ImageRevealHeroTitle: React.FC = () => {
     const [isHovered, setIsHovered] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+    
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
     const REVEAL_IMAGE = "https://github.com/hfseakeen/hf.wang-database/blob/main/images/grxx/zjz.webp?raw=true";
 
     return (
         <div 
             className="relative flex items-center justify-center cursor-pointer select-none group h-[1.2em] w-full"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            onMouseEnter={() => !isMobile && setIsHovered(true)}
+            onMouseLeave={() => !isMobile && setIsHovered(false)}
+            onClick={() => isMobile && setIsHovered(!isHovered)}
         >
             <motion.h1 
-                className="font-albert-black text-[6vw] md:text-[8vw] leading-none tracking-tighter whitespace-nowrap transform -skew-x-6 origin-right z-20 relative"
+                className="font-albert-black text-[15vw] md:text-[8vw] leading-none tracking-tighter whitespace-nowrap transform -skew-x-6 origin-right z-20 relative"
                 animate={{ 
-                    x: isHovered ? '-1vw' : '0%',
+                    x: isHovered ? (isMobile ? '-3vw' : '-1vw') : '0%',
                     color: isHovered ? '#D40411' : '#000000',
                 }}
                 transition={{ type: "spring", stiffness: 150, damping: 16 }}
@@ -141,19 +151,18 @@ const ImageRevealHeroTitle: React.FC = () => {
 
             <motion.div
                 className="absolute z-10 pointer-events-none rounded-[2rem] overflow-hidden border-4 border-white shadow-2xl"
-                style={{
-                    width: '12vw',
-                    height: '16vw', 
-                    top: '50%',
-                    left: '50%',
-                    marginTop: '-8vw',
-                    marginLeft: '-6vw' 
-                }}
-                initial={{ scale: 0, rotate: -15, opacity: 0 }}
                 animate={{
+                    width: isHovered ? (isMobile ? '24vw' : '12vw') : '0vw',
+                    height: isHovered ? (isMobile ? '30vw' : '16vw') : '0vw',
+                    x: '-50%',
+                    y: '-50%',
                     scale: isHovered ? 1 : 0,
                     rotate: isHovered ? 6 : -15,
                     opacity: isHovered ? 1 : 0
+                }}
+                style={{
+                    top: '50%',
+                    left: '50%',
                 }}
                 transition={{ 
                     type: "spring", 
@@ -170,9 +179,9 @@ const ImageRevealHeroTitle: React.FC = () => {
             </motion.div>
 
             <motion.h1 
-                className="font-albert-black text-[6vw] md:text-[8vw] leading-none tracking-tighter whitespace-nowrap transform -skew-x-6 origin-left z-20 relative ml-[2vw]"
+                className="font-albert-black text-[15vw] md:text-[8vw] leading-none tracking-tighter whitespace-nowrap transform -skew-x-6 origin-left z-20 relative ml-[2vw]"
                 animate={{ 
-                    x: isHovered ? '12vw' : '0%',
+                    x: isHovered ? (isMobile ? '22vw' : '12vw') : '0%',
                     color: isHovered ? '#D40411' : '#000000',
                 }}
                 transition={{ type: "spring", stiffness: 150, damping: 16 }}
@@ -322,13 +331,68 @@ const Hero: React.FC = () => {
             ref={containerRef}
             className="relative w-full bg-white overflow-hidden"
             onMouseMove={handleMouseMove}
-            style={{ height: '140vh' }}
+            style={{ height: 'auto', minHeight: '100vh' }}
         >
-             <motion.div 
-                className="sticky top-0 w-full h-screen overflow-hidden flex items-center justify-center will-change-transform"
-                onViewportEnter={() => setHasEntered(true)}
-             >
-                <div className="absolute inset-0 flex items-center justify-center perspective-2000">
+            {/* --- MOBILE LAYOUT --- */}
+            <div className="w-full h-screen bg-white flex flex-col items-center justify-center relative md:hidden py-12 px-6">
+                <div className="text-center z-10 w-full mb-12 flex flex-col items-center mt-24">
+                    <div className="w-full mb-6">
+                        <ImageRevealHeroTitle />
+                    </div>
+                    <div className="flex flex-col items-center gap-2 mt-4">
+                        <div className="font-albert-light text-xl text-gray-500 tracking-widest uppercase">王海锋</div>
+                        <div className="w-10 h-[1px] bg-gray-300 my-1" />
+                        <div className="font-albert-light text-sm text-gray-400 tracking-widest uppercase">资深摄影师 / 视觉设计师</div>
+                    </div>
+                </div>
+
+                {/* Simplified Auto-Scrolling Carousels for Mobile */}
+                <div className="w-full flex-1 flex flex-col gap-4 max-h-[50vh] overflow-hidden relative" style={{ perspective: '1000px' }}>
+                    <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-white z-20 pointer-events-none" />
+                    
+                    <motion.div 
+                        className="flex gap-4 min-w-full"
+                        animate={{ x: [0, -1000] }}
+                        transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+                    >
+                        {[...heroCards, ...heroCards].map((card, idx) => (
+                            <div 
+                                key={idx} 
+                                className="w-[45vw] flex-shrink-0 aspect-[3/4] rounded-2xl overflow-hidden shadow-lg border border-gray-100 relative bg-gray-100 cursor-pointer"
+                                onClick={() => setActiveVideo(card.videoUrl)}
+                            >
+                                <img src={card.img} className="w-full h-full object-cover" />
+                                <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.05)] pointer-events-none" />
+                            </div>
+                        ))}
+                    </motion.div>
+                    
+                    <motion.div 
+                        className="flex gap-4 min-w-full"
+                        animate={{ x: [-1000, 0] }}
+                        transition={{ duration: 25, ease: "linear", repeat: Infinity }}
+                    >
+                        {[...heroCards].reverse().concat([...heroCards].reverse()).map((card, idx) => (
+                            <div 
+                                key={idx} 
+                                className="w-[45vw] flex-shrink-0 aspect-[4/3] rounded-2xl overflow-hidden shadow-md border border-gray-100 relative bg-gray-100 cursor-pointer"
+                                onClick={() => setActiveVideo(card.videoUrl)}
+                            >
+                                <img src={card.img} className="w-full h-full object-cover" />
+                                <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.05)] pointer-events-none" />
+                            </div>
+                        ))}
+                    </motion.div>
+                </div>
+            </div>
+
+            {/* --- DESKTOP LAYOUT --- */}
+            <div className="hidden md:block w-full h-[140vh]">
+                <motion.div 
+                    className="sticky top-0 w-full h-screen overflow-hidden flex items-center justify-center will-change-transform"
+                    onViewportEnter={() => setHasEntered(true)}
+                >
+                    <div className="absolute inset-0 flex items-center justify-center perspective-2000">
                     <motion.div
                         className="relative w-full max-w-[1400px] will-change-transform transform-gpu"
                         style={{
@@ -345,7 +409,7 @@ const Hero: React.FC = () => {
                         <div className="absolute inset-[-50%] bg-white transform-preserve-3d" style={{ transform: `translateZ(${DEPTHS.FLOOR}px)` }} />
                         
                         {/* 1. Main Title - Moved UP slightly to 28% to balance the bottom card pile */}
-                        <div className="absolute top-[28%] left-0 w-full text-center pointer-events-none" style={{ transform: `translateZ(${DEPTHS.TEXT}px) rotateX(-10deg)` }}>
+                        <div className="absolute top-[20%] md:top-[28%] left-0 w-full text-center pointer-events-none" style={{ transform: `translateZ(${DEPTHS.TEXT}px) rotateX(-10deg)` }}>
                              <motion.div 
                                 className="pointer-events-auto inline-block" 
                                 initial={{ opacity: 0, y: 150 }}
@@ -363,9 +427,9 @@ const Hero: React.FC = () => {
                                 transition={{ duration: 1.2, ease: "easeOut", delay: 0.4 }}
                                 viewport={{ once: true }}
                             >
-                                <div className="font-albert-light text-2xl md:text-3xl text-gray-500 tracking-widest uppercase">王海锋</div>
-                                <div className="w-12 h-[1px] bg-gray-300 my-1" />
-                                <div className="font-albert-light text-xl md:text-2xl text-gray-400 tracking-widest uppercase">资深摄影师 / 视觉设计师</div>
+                                <div className="font-albert-light text-lg sm:text-2xl md:text-3xl text-gray-500 tracking-widest uppercase">王海锋</div>
+                                <div className="w-8 md:w-12 h-[1px] bg-gray-300 my-1" />
+                                <div className="font-albert-light text-sm sm:text-lg md:text-2xl text-gray-400 tracking-widest uppercase">资深摄影师 / 视觉设计师</div>
                             </motion.div>
                         </div>
 
@@ -383,6 +447,7 @@ const Hero: React.FC = () => {
                     </motion.div>
                 </div>
              </motion.div>
+             </div>
 
              {/* Video Modal */}
              <AnimatePresence>
