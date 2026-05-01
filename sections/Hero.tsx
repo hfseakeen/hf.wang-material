@@ -50,63 +50,63 @@ const heroCards = [
       color: '#FF7F27', 
       rotate: -2,      
       scale: 1.4,       
-      img: 'https://github.com/hfseakeen/hf.wang-material/blob/main/images/home%20page/ajly-02.png?raw=true',
-      videoUrl: 'https://github.com/hfseakeen/hf.wang-material/raw/refs/heads/main/movie/ajly.mp4'
+      img: 'https://github.com/hfseakeen/hf.wang-database/blob/main/images/zpjx/01-ajly.webp?raw=true',
+      videoUrl: 'https://github.com/hfseakeen/hf.wang-database/raw/refs/heads/main/movie/ajly.mp4'
   }, 
   { 
       id: 2, 
       color: '#00A2E8', 
       rotate: 8,        
       scale: 1.2,      
-      img: 'https://github.com/hfseakeen/hf.wang-material/blob/main/images/home%20page/youphoria-08.jpg?raw=true',
-      videoUrl: 'https://github.com/hfseakeen/hf.wang-material/raw/refs/heads/main/movie/youphoria.mp4'
+      img: 'https://github.com/hfseakeen/hf.wang-database/blob/main/images/zpjx/02-gisou.webp?raw=true',
+      videoUrl: 'https://github.com/hfseakeen/hf.wang-database/raw/refs/heads/main/movie/gisou.mp4'
   }, 
   { 
       id: 3, 
       color: '#55FFFF', 
       rotate: 24,       
       scale: 1.15,       
-      img: 'https://github.com/hfseakeen/hf.wang-material/blob/main/images/home%20page/divine%20water-03.jpg?raw=true',
-      videoUrl: 'https://github.com/hfseakeen/hf.wang-material/raw/refs/heads/main/movie/divine%20water.mp4'
+      img: 'https://github.com/hfseakeen/hf.wang-database/blob/main/images/zpjx/03-vichy.webp?raw=true',
+      videoUrl: 'https://github.com/hfseakeen/hf.wang-database/raw/refs/heads/main/movie/vichy.mp4'
   }, 
   {   id: 4, 
       color: '#E0221E', 
       rotate: 12,       
       scale: 1.1,      
-      img: 'https://github.com/hfseakeen/hf.wang-material/blob/main/images/home%20page/gisou-04.jpg?raw=true',
-      videoUrl: 'https://github.com/hfseakeen/hf.wang-material/raw/refs/heads/main/movie/gisou.mp4'
+      img: 'https://github.com/hfseakeen/hf.wang-database/blob/main/images/zpjx/04-divine%20water.webp?raw=true',
+      videoUrl: 'https://github.com/hfseakeen/hf.wang-database/raw/refs/heads/main/movie/divine%20water.mp4'
   }, 
   { 
       id: 5, 
       color: '#E0221E', 
       rotate: 2,      
       scale: 1.0,      
-      img: 'https://github.com/hfseakeen/hf.wang-material/blob/main/images/home%20page/love%20me%20do-05.jpg?raw=true',
-      videoUrl: 'https://github.com/hfseakeen/hf.wang-material/raw/refs/heads/main/movie/love%20me%20do.mp4'
+      img: 'https://github.com/hfseakeen/hf.wang-database/blob/main/images/zpjx/05-love%20me%20do.webp?raw=true',
+      videoUrl: 'https://github.com/hfseakeen/hf.wang-database/raw/refs/heads/main/movie/love%20me%20do.mp4'
   }, 
   { 
       id: 6, 
       color: '#0044BA', 
       rotate: 15,       
       scale: 0.9,       
-      img: 'https://github.com/hfseakeen/hf.wang-material/blob/main/images/home%20page/olaplex-06.jpg?raw=true',
-      videoUrl: 'https://github.com/hfseakeen/hf.wang-material/raw/refs/heads/main/movie/olaplex.mp4'
+      img: 'https://github.com/hfseakeen/hf.wang-database/blob/main/images/zpjx/06-olaplex.webp?raw=true',
+      videoUrl: 'https://github.com/hfseakeen/hf.wang-database/raw/refs/heads/main/movie/olaplex.mp4'
   },
   { 
       id: 7, 
       color: '#AA88EE', 
       rotate: -15,       
       scale: 0.95,      
-      img: 'https://github.com/hfseakeen/hf.wang-material/blob/main/images/home%20page/vichy-07.jpg?raw=true',
-      videoUrl: 'https://github.com/hfseakeen/hf.wang-material/raw/refs/heads/main/movie/vichy.mp4'
+      img: 'https://github.com/hfseakeen/hf.wang-database/blob/main/images/zpjx/07-youphoria.webp?raw=true',
+      videoUrl: 'https://github.com/hfseakeen/hf.wang-database/raw/refs/heads/main/movie/youphoria.mp4'
   },
   { 
       id: 8, 
       color: '#4ECDC4', 
       rotate: -15,      
       scale: 0.01,       
-      img: 'https://github.com/hfseakeen/hf.wang-material/blob/main/images/home%20page/zpzl-2024-01.jpg?raw=true',
-      videoUrl: 'https://github.com/hfseakeen/hf.wang-material/raw/refs/heads/main/movie/zpzl-2024.mp4'
+      img: 'https://github.com/hfseakeen/hf.wang-database/blob/main/images/zpjx/01-ajly.webp?raw=true',
+      videoUrl: 'https://github.com/hfseakeen/hf.wang-database/raw/refs/heads/main/movie/ajly.mp4'
   }
 ];
 
@@ -120,7 +120,7 @@ const DEPTHS = {
 
 const ImageRevealHeroTitle: React.FC = () => {
     const [isHovered, setIsHovered] = useState(false);
-    const REVEAL_IMAGE = "https://github.com/hfseakeen/hf.wang-material/blob/main/images/zjz.jpg?raw=true";
+    const REVEAL_IMAGE = "https://github.com/hfseakeen/hf.wang-database/blob/main/images/grxx/zjz.webp?raw=true";
 
     return (
         <div 

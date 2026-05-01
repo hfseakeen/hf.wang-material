@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform, useSpring, useMotionValue, useMotionTe
 // --- CONFIGURATION ---
 // 🟢 👇 PASTE YOUR WECHAT QR CODE IMAGE LINK HERE
 // 您可以在这里替换您的微信二维码图片链接
-const WECHAT_QR_CODE_URL = "https://github.com/hfseakeen/hf.wang-material/blob/main/images/ewm.png?raw=true";
+const WECHAT_QR_CODE_URL = "https://github.com/hfseakeen/hf.wang-database/blob/main/images/grxx/ewm.webp?raw=true";
 
 // --- ICONS ---
 const ICONS = {

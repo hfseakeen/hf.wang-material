@@ -412,7 +412,7 @@ const StablePhoto: React.FC = () => {
             >
                 <div className="w-full h-full relative overflow-hidden rounded-[1.5rem] bg-gray-100 transform-style-3d">
                     <img 
-                        src="https://github.com/hfseakeen/hf.wang-material/blob/main/images/zjz.jpg?raw=true" 
+                        src="https://github.com/hfseakeen/hf.wang-database/blob/main/images/grxx/zjz.webp?raw=true" 
                         alt="Profile" 
                         className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 ease-out will-change-filter"
                         decoding="async"

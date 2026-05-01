@@ -185,7 +185,7 @@ const SpotlightRow: React.FC<{
 const ExperienceModal: React.FC<ExperienceModalProps> = ({ isOpen, onClose }) => {
   const [selectedItem, setSelectedItem] = useState<ExperienceItem | null>(null);
   // 🇨🇳 CHINA OPTIMIZATION: Replaced Unsplash URL with jsDelivr mirror asset
-  const [photoUrl, setPhotoUrl] = useState<string>("https://github.com/hfseakeen/hf.wang-material/blob/main/images/zjz.jpg?raw=true");
+  const [photoUrl, setPhotoUrl] = useState<string>("https://github.com/hfseakeen/hf.wang-database/blob/main/images/grxx/zjz.webp?raw=true");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
