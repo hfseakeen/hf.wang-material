@@ -412,7 +412,7 @@ const StablePhoto: React.FC = () => {
             >
                 <div className="w-full h-full relative overflow-hidden rounded-[1.5rem] bg-gray-100 transform-style-3d">
                     <img 
-                        src="https://github.com/hfseakeen/hf.wang-database/blob/main/images/grxx/zjz.webp?raw=true" 
+                        src="https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/grxx/zjz.webp" 
                         alt="Profile" 
                         className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 ease-out will-change-filter"
                         decoding="async"
@@ -519,7 +519,7 @@ const Profile: React.FC<{ forceOpenModal?: boolean, setForceOpenModal?: (open: b
                 
                 <div className="w-full max-w-sm aspect-[3/4] rounded-[1.5rem] overflow-hidden mb-8 shadow-xl">
                     <img 
-                        src="https://github.com/hfseakeen/hf.wang-database/blob/main/images/grxx/zjz.webp?raw=true" 
+                        src="https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/grxx/zjz.webp" 
                         alt="Profile" 
                         className="w-full h-full object-cover"
                     />

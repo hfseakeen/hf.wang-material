@@ -33,7 +33,7 @@ const skills = [
         percentText: "98%", 
         color: "#F59E0B", 
         tags: "商业全案拍摄, 产品摄影, 直播搭建",
-        videoUrl: "https://github.com/hfseakeen/hf.wang-material/raw/refs/heads/main/movie/vichy.mp4",
+        videoUrl: "https://hf-1259323808.cos.ap-shanghai.myqcloud.com/movie/vichy.mp4",
         previewRotate: -6,
         previewText: "作品预览"
     },
@@ -44,7 +44,7 @@ const skills = [
         percentText: "95%", 
         color: "#3B82F6", 
         tags: "平面设计, 品牌全案, 视觉策略",
-        videoUrl: "https://github.com/hfseakeen/hf.wang-material/raw/refs/heads/main/movie/RounaedRedefined.mp4",
+        videoUrl: "https://hf-1259323808.cos.ap-shanghai.myqcloud.com/movie/RounaedRedefined.mp4",
         previewRotate: 8,
         previewText: "提案动效"
     },
@@ -55,7 +55,7 @@ const skills = [
         percentText: "85%", 
         color: "#8B5CF6", 
         tags: "动态视觉, AE后期特效, PR剪辑工作流",
-        videoUrl: "https://github.com/hfseakeen/hf.wang-material/raw/refs/heads/main/movie/ajly.mp4",
+        videoUrl: "https://hf-1259323808.cos.ap-shanghai.myqcloud.com/movie/ajly.mp4",
         previewRotate: 5,
         previewText: "动态视觉"
     },
@@ -66,7 +66,7 @@ const skills = [
         percentText: "80%", 
         color: "#EA580C", 
         tags: "AI创意落地, Midjourney, 摄影修图提效",
-        videoUrl: "https://github.com/hfseakeen/hf.wang-material/raw/refs/heads/main/movie/ranvoo.mp4",
+        videoUrl: "https://hf-1259323808.cos.ap-shanghai.myqcloud.com/movie/ranvoo.mp4",
         previewRotate: -12,
         previewText: "AI 创意"
     },
@@ -78,7 +78,7 @@ const skills = [
 const softwares = [
     { 
         name: 'Ps', 
-        iconUrl: 'https://jsd.cdn.zzko.cn/gh/devicons/devicon/icons/photoshop/photoshop-original.svg', 
+        iconUrl: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/rj/ps.webp', 
         color: '#31A8FF', 
         previewRotate: -10, 
         y: 5,
@@ -86,7 +86,7 @@ const softwares = [
     }, 
     { 
         name: 'Ai', 
-        iconUrl: 'https://jsd.cdn.zzko.cn/gh/devicons/devicon/icons/illustrator/illustrator-plain.svg', 
+        iconUrl: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/rj/ai.webp', 
         color: '#FF9A00', 
         previewRotate: 8, 
         y: -2,
@@ -94,7 +94,7 @@ const softwares = [
     }, 
     { 
         name: 'Ae', 
-        iconUrl: 'https://jsd.cdn.zzko.cn/gh/devicons/devicon/icons/aftereffects/aftereffects-original.svg', 
+        iconUrl: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/rj/ae.webp', 
         color: '#9999FF', 
         previewRotate: -15, 
         y: 12,
@@ -102,7 +102,7 @@ const softwares = [
     }, 
     { 
         name: 'Pr', 
-        iconUrl: 'https://jsd.cdn.zzko.cn/gh/devicons/devicon/icons/premierepro/premierepro-original.svg', 
+        iconUrl: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/rj/pr.webp', 
         color: '#EA77FF', 
         previewRotate: 15, 
         y: 0,
@@ -111,7 +111,7 @@ const softwares = [
     },
     { 
         name: 'Capture One', 
-        iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Capture_One_icon.svg/512px-Capture_One_icon.svg.png', 
+        iconUrl: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/rj/capture%20one.webp', 
         color: '#F5792A', 
         previewRotate: 12, 
         y: -2,
@@ -119,7 +119,7 @@ const softwares = [
     }, 
     { 
         name: 'Blander', 
-        iconUrl: 'https://jsd.cdn.zzko.cn/gh/devicons/devicon/icons/blender/blender-original.svg', 
+        iconUrl: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/rj/blander.webp', 
         color: '#2A55F5', 
         previewRotate: -8, 
         y: 6,

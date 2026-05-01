@@ -8,39 +8,39 @@ import { motion, AnimatePresence } from 'framer-motion';
 const ORIGINAL_PLAYLIST = [
     {
         title: "Head in the clouds",
-        url: "https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/1.mp3" 
+        url: "https://hf-1259323808.cos.ap-shanghai.myqcloud.com/music/01-head%20in%20the%20clouds.mp3" 
     },
     {
         title: "Un Amico", 
-        url: "https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/2.mp3" 
+        url: "https://hf-1259323808.cos.ap-shanghai.myqcloud.com/music/02-un%20amico.mp3" 
     },
     {
         title: "Death bed",
-        url: "https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/3.mp3"
+        url: "https://hf-1259323808.cos.ap-shanghai.myqcloud.com/music/03-death%20bed.mp3"
     },
     {
         title: "Luv(sic.)pt3", 
-        url: "https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/4.mp3" 
+        url: "https://hf-1259323808.cos.ap-shanghai.myqcloud.com/music/04-luv%28sic.%29pt3.mp3" 
     },
     {
         title: "Repeat until death", 
-        url: "https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/5.mp3" 
+        url: "https://hf-1259323808.cos.ap-shanghai.myqcloud.com/music/05-repeat%20until%20death.mp3" 
     },
     {
         title: "The Void", 
-        url: "https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/music/6.mp3" 
+        url: "https://hf-1259323808.cos.ap-shanghai.myqcloud.com/music/06-the%20void.mp3" 
     },
     {
         title: "Come Here", 
-        url: "https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/music/8.mp3" 
+        url: "https://hf-1259323808.cos.ap-shanghai.myqcloud.com/music/07-come%20here.mp3" 
     },
     {
         title: "空とぶ宅急便", 
-        url: "https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/music/9.mp3" 
+        url: "https://hf-1259323808.cos.ap-shanghai.myqcloud.com/music/08-kikis%20delivery%20service.mp3" 
     },
     {
         title: "你听得到——编曲", 
-        url: "https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/music/13.mp3" 
+        url: "https://hf-1259323808.cos.ap-shanghai.myqcloud.com/music/09-you%20hear%20me.mp3" 
     },
 ];
 
