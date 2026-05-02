@@ -455,6 +455,7 @@ const Project2FlipVideo: React.FC<{ config: any }> = ({ config }) => {
             videoRef.current.pause();
             videoRef.current.currentTime = 0;
             window.dispatchEvent(new Event('resume-background-music'));
+            window.dispatchEvent(new Event('show-navbar'));
         }
     };
 
@@ -472,17 +473,20 @@ const Project2FlipVideo: React.FC<{ config: any }> = ({ config }) => {
         e.stopPropagation();
         setIsFullscreen(true);
         window.dispatchEvent(new Event('pause-background-music'));
+        window.dispatchEvent(new Event('hide-navbar'));
     };
 
     const closeFullscreen = (e?: any) => {
         if (e && e.stopPropagation) e.stopPropagation();
         setIsFullscreen(false);
         window.dispatchEvent(new Event('resume-background-music'));
+        window.dispatchEvent(new Event('show-navbar'));
     };
 
     useEffect(() => {
         if (isFlipped && videoRef.current) {
              window.dispatchEvent(new Event('pause-background-music'));
+             window.dispatchEvent(new Event('hide-navbar'));
              videoRef.current.play().catch(err => console.log('Auto play video failed', err));
         }
     }, [isFlipped]);
@@ -648,6 +652,7 @@ const AbsoluteClickableVideo: React.FC<{ url: string, scale?: number, style?: Re
         e.stopPropagation();
         setIsFullscreen(true);
         window.dispatchEvent(new Event('pause-background-music'));
+        window.dispatchEvent(new Event('hide-navbar'));
     };
 
     const closeFullscreen = (e?: any) => {
@@ -656,6 +661,7 @@ const AbsoluteClickableVideo: React.FC<{ url: string, scale?: number, style?: Re
         setIsPlaying(false);
         // Resume background music only if we aren't in another video context
         window.dispatchEvent(new Event('resume-background-music'));
+        window.dispatchEvent(new Event('show-navbar'));
     };
 
     // Auto play when fullscreen
@@ -777,6 +783,7 @@ const FlipVideoCard: React.FC<{
         // 🟢 Resume music explicitly when closing
         if (nextState === false) {
             window.dispatchEvent(new Event('resume-background-music'));
+            window.dispatchEvent(new Event('show-navbar'));
         }
     };
 
@@ -784,12 +791,14 @@ const FlipVideoCard: React.FC<{
         e.stopPropagation();
         setIsFullscreen(true);
         window.dispatchEvent(new Event('pause-background-music'));
+        window.dispatchEvent(new Event('hide-navbar'));
     };
 
     const closeFullscreen = (e?: any) => {
         if (e && e.stopPropagation) e.stopPropagation();
         setIsFullscreen(false);
         window.dispatchEvent(new Event('resume-background-music'));
+        window.dispatchEvent(new Event('show-navbar'));
     };
 
     // Auto-play video when flipped
@@ -797,6 +806,7 @@ const FlipVideoCard: React.FC<{
         if (isFlipped && videoRef.current) {
             // 🟢 1. Trigger Global Music Pause
             window.dispatchEvent(new Event('pause-background-music'));
+            window.dispatchEvent(new Event('hide-navbar'));
 
             // 🟢 2. Set THIS card as the active audio source
             setActiveVideoIndex(index);
@@ -1595,15 +1605,16 @@ const VinylProjects: React.FC = () => {
     const [hoveredProject, setHoveredProject] = useState<any>(null);
     const leaveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    // 🟢 NEW: Global Music Control Logic based on Modal State
+    // 🟢 NEW: Global Music & Navbar control Logic based on Modal State
     useEffect(() => {
-        // Project ID 5 and 6 are video projects/contain videos
-        if (selectedProject?.id === 5 || selectedProject?.id === 6) {
-            // Pause background music when entering Project 6 modal
+        if (selectedProject) {
+            // Hide navbar and hide/pause music player when entering projects
             window.dispatchEvent(new Event('pause-background-music'));
+            window.dispatchEvent(new Event('hide-navbar'));
         } else {
-            // Resume background music when closing modal (if it was playing before)
+            // Show navbar and potentially resume music player when returning
             window.dispatchEvent(new Event('resume-background-music'));
+            window.dispatchEvent(new Event('show-navbar'));
         }
     }, [selectedProject]);
 

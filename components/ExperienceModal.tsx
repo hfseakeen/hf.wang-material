@@ -197,6 +197,17 @@ const ExperienceModal: React.FC<ExperienceModalProps> = ({ isOpen, onClose }) =>
   const [photoUrl, setPhotoUrl] = useState<string>("https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/grxx/zjz.webp");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // 🟢 NEW: Global Music & Navbar control Logic based on Modal State
+  useEffect(() => {
+    if (isOpen) {
+        window.dispatchEvent(new Event('pause-background-music'));
+        window.dispatchEvent(new Event('hide-navbar'));
+    } else {
+        window.dispatchEvent(new Event('resume-background-music'));
+        window.dispatchEvent(new Event('show-navbar'));
+    }
+  }, [isOpen]);
+
   useEffect(() => {
     if (isOpen) document.body.style.overflow = 'hidden';
     else document.body.style.overflow = 'auto';

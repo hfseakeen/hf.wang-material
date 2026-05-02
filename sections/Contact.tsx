@@ -1,7 +1,19 @@
 import React, { useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, useScroll, useTransform, useSpring, useMotionValue, useMotionTemplate, AnimatePresence } from 'framer-motion';
+import { Download, X } from 'lucide-react';
 
-// --- CONFIGURATION ---
+// 🟢 👇 PASTE YOUR RESUME PDF LINK HERE
+// 您可以在这里替换您的简历 PDF 链接
+const RESUME_PDF_URL = "https://hf-1259323808.cos.ap-shanghai.myqcloud.com/pdf/jl.pdf";
+
+// 🟢 👇 PASTE YOUR RESUME IMAGE LINKS HERE
+// 您可以在这里替换您的简历图片链接（共两张）
+const RESUME_IMAGES = [
+    "https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/grxx/jl-01.webp",
+    "https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/grxx/jl-02.webp"
+];
+
 // 🟢 👇 PASTE YOUR WECHAT QR CODE IMAGE LINK HERE
 // 您可以在这里替换您的微信二维码图片链接
 const WECHAT_QR_CODE_URL = "https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/grxx/ewm.webp";
@@ -20,17 +32,10 @@ const ICONS = {
         </svg>
     ),
     WeChat: (
-        <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M8.69 16.89C8.69 16.89 12.98 16.9 15.68 15.34C18.37 13.79 18.29 11.23 18.29 11.23C18.29 11.23 18.29 11.23 18.29 11.23C18.39 8.65 16.14 6.75 13.06 6.75C9.97 6.75 7.42 8.94 7.42 11.91C7.42 13.62 8.32 15.11 9.68 16.03C9.68 16.03 9.97 16.2 9.77 16.88C9.56 17.55 9.17 18.26 9.17 18.26C9.17 18.26 12.39 18.06 14.15 16.63L8.69 16.89Z" opacity="0.6"/>
-            <path d="M16.48 15.82C16.48 15.82 21.03 15.16 22.5 12.63C23.97 10.1 22.39 7.5 22.39 7.5C22.39 7.5 22.39 7.5 22.39 7.5C21.84 4.5 18.57 3 15.5 3C12.43 3 9.8 5.25 9.8 8C9.8 8.44 9.86 8.87 9.97 9.27C10.79 9.06 11.75 8.94 12.8 8.94C17.09 8.94 20.66 11.66 20.66 15.24C20.66 16.1 20.47 16.91 20.13 17.65C20.13 17.65 19.78 17.47 19.34 16.99L16.48 15.82Z"/>
-        </svg>
+        <img src="https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/rj/vx-xg.webp" className="w-[45px] h-[45px] object-contain" alt="WeChat" />
     ),
-    Xiaohongshu: (
-        <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M4 12a8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8 8 8 0 0 1-8-8z" fill="none" stroke="currentColor" strokeWidth="2"/>
-            <path d="M7 11.5c0-2 .5-3.5 1.5-4.5s2.5-1.5 3.5-1.5 2.5.5 3.5 1.5 1.5 2.5 1.5 4.5-1 4-2.5 5.5S12 18 12 18s-2.5-.5-4-1.5S7 13.5 7 11.5z" />
-            <path d="M9 12h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-        </svg>
+    Jl: (
+        <img src="https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/rj/jl-xg.webp" className="w-[45px] h-[45px] object-contain" alt="Xiaohongshu" />
     )
 };
 
@@ -72,17 +77,98 @@ const CONTACT_CARDS = [
         qrCode: WECHAT_QR_CODE_URL // Added QR Code Link
     },
     {
-        id: 'xhs',
-        title: '小红书',
-        value: '0000000000',
-        color: '#FF2442', // Xiaohongshu Red
-        icon: ICONS.Xiaohongshu,
+        id: 'jl',
+        title: '简历',
+        value: 'PDF版本可下载',
+        color: '#FF2442', 
+        icon: ICONS.Jl,
         position: { x: '100%', y: '14%' }, 
         rotation: -16,
-        // 🟢 👇 修改这里：目前设置了 12 度，使其向右旋转 (您可以改成其他数值)
-        hoverRotation: -18 
+        hoverRotation: -18,
+        isResume: true,
+        pdfUrl: RESUME_PDF_URL
     }
 ];
+
+// --- RESUME MODAL ---
+const ResumeModal: React.FC<{ isOpen: boolean; onClose: () => void; pdfUrl: string; images: string[] }> = ({ isOpen, onClose, pdfUrl, images }) => {
+    if (!isOpen) return null;
+
+    return createPortal(
+        <AnimatePresence>
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4 md:p-10"
+                onClick={onClose}
+            >
+                <motion.div
+                    initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                    animate={{ scale: 1, opacity: 1, y: 0 }}
+                    exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                    className="relative w-full max-w-4xl h-full bg-white rounded-3xl overflow-hidden shadow-2xl flex flex-col"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    {/* Header */}
+                    <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-white z-10 shrink-0">
+                        <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            </div>
+                            <h3 className="text-lg font-bold text-gray-800">简历详情</h3>
+                        </div>
+                        
+                        <div className="flex items-center gap-2">
+                            {/* Download Button */}
+                            <a 
+                                href={pdfUrl} 
+                                target="_blank"
+                                rel="noreferrer"
+                                download="Resume_HeFang.pdf"
+                                className="group flex items-center gap-2 px-4 py-2 bg-gray-900 hover:bg-black text-white rounded-full transition-all text-sm font-medium shadow-lg hover:shadow-black/20"
+                            >
+                                <Download size={16} className="group-hover:translate-y-0.5 transition-transform" />
+                                <span>下载 PDF</span>
+                            </a>
+                            
+                            {/* Close Button */}
+                            <button 
+                                onClick={onClose}
+                                className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-900"
+                            >
+                                <X size={24} />
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Image Viewer (Scrollable) */}
+                    <div className="flex-1 w-full bg-gray-50 overflow-y-auto overflow-x-hidden p-4 md:p-8 custom-scrollbar">
+                        <div className="flex flex-col gap-6 max-w-3xl mx-auto items-center">
+                            {images.map((img, idx) => (
+                                <motion.div 
+                                    key={idx}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: idx * 0.2 }}
+                                    className="w-full bg-white shadow-xl rounded-xl overflow-hidden"
+                                >
+                                    <img 
+                                        src={img} 
+                                        alt={`Resume Page ${idx + 1}`} 
+                                        className="w-full h-auto block"
+                                        onContextMenu={(e) => e.preventDefault()}
+                                    />
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </motion.div>
+            </motion.div>
+        </AnimatePresence>,
+        document.body
+    );
+};
 
 // --- FLOOR MARQUEE COMPONENT ---
 const FloorMarquee: React.FC<{ direction: 'left' | 'right', text: string, className?: string, rotate?: number, style?: React.CSSProperties }> = React.memo(({ direction, text, className, rotate = 0, style }) => {
@@ -112,15 +198,19 @@ const FloorMarquee: React.FC<{ direction: 'left' | 'right', text: string, classN
 });
 
 // --- 3D CARD COMPONENT ---
-const Card3D: React.FC<{ item: typeof CONTACT_CARDS[number]; index: number }> = ({ item, index }) => {
+const Card3D: React.FC<{ item: typeof CONTACT_CARDS[number]; index: number; onResumeClick: () => void }> = ({ item, index, onResumeClick }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [copied, setCopied] = useState(false);
 
-    const handleCopy = (e: React.MouseEvent) => {
+    const handleClick = (e: React.MouseEvent) => {
         e.stopPropagation();
-        navigator.clipboard.writeText(item.value);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+        if (item.isResume) {
+            onResumeClick();
+        } else {
+            navigator.clipboard.writeText(item.value);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        }
     };
 
     return (
@@ -138,7 +228,7 @@ const Card3D: React.FC<{ item: typeof CONTACT_CARDS[number]; index: number }> = 
             transition={{ duration: 0.8, delay: index * 0.1, type: "spring" }}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            onClick={handleCopy}
+            onClick={handleClick}
         >
             <motion.div
                 className="relative cursor-pointer"
@@ -213,13 +303,17 @@ const Card3D: React.FC<{ item: typeof CONTACT_CARDS[number]; index: number }> = 
                          
                          {/* Changed text-xs to text-sm for "CLICK TO COPY" */}
                          <div className="mt-6 flex items-center justify-center gap-2 text-sm font-mono text-gray-400">
-                             {copied ? (
-                                 <span className="text-green-500 font-bold flex items-center gap-1">
-                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                     已复制！
-                                 </span>
+                             {item.isResume ? (
+                                 <span className="text-red-500 font-bold">点击在线查看</span>
                              ) : (
-                                 <span>点击复制</span>
+                                 copied ? (
+                                     <span className="text-green-500 font-bold flex items-center gap-1">
+                                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                         已复制！
+                                     </span>
+                                 ) : (
+                                     <span>点击复制</span>
+                                 )
                              )}
                          </div>
                     </motion.div>
@@ -238,7 +332,20 @@ const Card3D: React.FC<{ item: typeof CONTACT_CARDS[number]; index: number }> = 
 
 // --- MAIN COMPONENT ---
 const Contact: React.FC = () => {
+    const [resumeOpen, setResumeOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
+
+    // 🟢 NEW: Global Music & Navbar control Logic based on Modal State
+    React.useEffect(() => {
+        if (resumeOpen) {
+            window.dispatchEvent(new Event('pause-background-music'));
+            window.dispatchEvent(new Event('hide-navbar'));
+        } else {
+            window.dispatchEvent(new Event('resume-background-music'));
+            window.dispatchEvent(new Event('show-navbar'));
+        }
+    }, [resumeOpen]);
+
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end end"]
@@ -262,8 +369,12 @@ const Contact: React.FC = () => {
                             key={card.id}
                             className="w-full bg-white border border-gray-200 rounded-[1.5rem] p-6 shadow-sm flex flex-col items-center gap-4 hover:shadow-md transition-shadow active:scale-[0.98]"
                             onClick={(e) => {
-                                navigator.clipboard.writeText(card.value);
-                                alert("已复制 " + card.title + ": " + card.value);
+                                if (card.isResume) {
+                                    setResumeOpen(true);
+                                } else {
+                                    navigator.clipboard.writeText(card.value);
+                                    alert("已复制 " + card.title + ": " + card.value);
+                                }
                             }}
                         >
                             <div className="w-12 h-12 text-black/80 flex justify-center items-center">
@@ -281,7 +392,7 @@ const Contact: React.FC = () => {
                                 <p className="text-xl font-albert-black text-black leading-tight select-all">{card.value}</p>
                             </div>
                             
-                            <span className="text-xs text-blue-500 font-bold mt-2">点击复制</span>
+                            <span className="text-xs text-blue-500 font-bold mt-2">{card.isResume ? "点击查看" : "点击复制"}</span>
                         </div>
                     ))}
                 </div>
@@ -311,12 +422,19 @@ const Contact: React.FC = () => {
                     {/* Cards Container */}
                     <div className="absolute inset-0 pointer-events-auto" style={{ transformStyle: "preserve-3d" }}>
                          {CONTACT_CARDS.map((card, idx) => (
-                             <Card3D key={card.id} item={card} index={idx} />
+                             <Card3D key={card.id} item={card} index={idx} onResumeClick={() => setResumeOpen(true)} />
                          ))}
                     </div>
 
                 </motion.div>
             </div>
+
+            <ResumeModal 
+                isOpen={resumeOpen} 
+                onClose={() => setResumeOpen(false)} 
+                pdfUrl={RESUME_PDF_URL} 
+                images={RESUME_IMAGES}
+            />
         </section>
     );
 };

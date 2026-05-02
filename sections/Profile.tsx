@@ -329,7 +329,7 @@ const ExperienceModalCard: React.FC<{ selectedExp: any, onClose: () => void }> =
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
                 <div className="flex items-center gap-4 mb-8">
-                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg border border-white/20" style={{ backgroundColor: selectedExp.color }}>
+                    <div className="hidden md:flex w-16 h-16 rounded-2xl items-center justify-center text-white font-bold text-xl shadow-lg border border-white/20" style={{ backgroundColor: selectedExp.color }}>
                         {selectedExp.company.charAt(0)}
                     </div>
                     <div>

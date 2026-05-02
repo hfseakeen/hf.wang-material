@@ -1,5 +1,5 @@
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useMotionValueEvent, useMotionValue, useMotionTemplate, AnimatePresence } from 'framer-motion';
 import Magnetic from './Magnetic';
 import VinylLogo from './VinylLogo';
@@ -45,6 +45,21 @@ const Navbar: React.FC = () => {
   const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+
+  // 🟢 NEW: Listen for global hide/show events (e.g., from modals)
+  useEffect(() => {
+    const handleHide = () => setIsHidden(true);
+    const handleShow = () => setIsHidden(false);
+    
+    window.addEventListener('hide-navbar', handleHide);
+    window.addEventListener('show-navbar', handleShow);
+    
+    return () => {
+        window.removeEventListener('hide-navbar', handleHide);
+        window.removeEventListener('show-navbar', handleShow);
+    };
+  }, []);
 
   // Debounced scroll update or simple threshold check is fine
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -84,8 +99,11 @@ const Navbar: React.FC = () => {
       className="fixed top-0 left-0 w-full z-50 px-6 py-6 md:px-8 flex justify-between items-center transition-all duration-500 pointer-events-none"
       initial={{ opacity: 1 }}
       animate={{ 
+        opacity: isHidden ? 0 : 1,
+        y: isHidden ? -20 : 0,
         backgroundColor: isScrolled ? "rgba(255,255,255,0.01)" : "transparent",
       }}
+      style={{ pointerEvents: isHidden ? 'none' : 'auto' } as any}
     >
       <div 
         className="absolute inset-0 z-[-1] transition-all duration-500 pointer-events-none"
