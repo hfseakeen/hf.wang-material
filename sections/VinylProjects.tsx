@@ -52,7 +52,7 @@ const PROJECT_1_HOVER_CONFIG = [
     {
         id: 'p1-slide-1',
         // 🇨🇳 CHINA OPTIMIZATION: Replaced raw.githubusercontent with jsd.cdn.zzko.cn
-        url: 'https://github.com/hfseakeen/hf.wang-material/blob/main/images/tml-ip.png?raw=true',
+        url: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/tml/tml-ip.webp',
         x: 50,      
         y: 20,     
         scale: 1.25,  
@@ -155,7 +155,7 @@ const PROJECT_2_HOVER_CONFIG = [
     {
         id: 'p2-char',
         // 🇨🇳 CHINA OPTIMIZATION
-        url: 'https://github.com/hfseakeen/hf.wang-material/blob/main/images/roys-ip.png?raw=true',
+        url: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/roys/roys-ip.webp',
         x: -61,
         y: -300,      // Center
         scale: 0.8, // Large central figure
@@ -175,7 +175,7 @@ const PROJECT_3_HOVER_CONFIG = [
     { 
         id: 'p3-5', 
         // 🇨🇳 CHINA OPTIMIZATION
-        url: 'https://github.com/hfseakeen/hf.wang-material/blob/main/images/ajly-ip.png?raw=true', 
+        url: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/ajly/ajly-ip.webp', 
         x: -364, 
         y: -50, 
         scale: 0.7, 
@@ -195,7 +195,7 @@ const PROJECT_4_HOVER_CONFIG = [
     { 
         id: 'p4-5', 
         // 🇨🇳 CHINA OPTIMIZATION
-        url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/%E5%8D%AB%E5%B2%97/%E5%A4%A7%E5%8D%AB1.png', 
+        url: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/jd/jdjr-ip.webp', 
         x: 50, 
         y: -200, 
         scale: 1.0, 
@@ -215,7 +215,7 @@ const PROJECT_5_HOVER_CONFIG = [
     { 
         id: 'p5-5', 
         // 🇨🇳 CHINA OPTIMIZATION
-        url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/nezha/%E5%93%AA%E5%90%92.png', 
+        url: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/farmacy/farmacy-ip.webp', 
         x: 0, 
         y: -450, 
         scale: 0.7, 
@@ -431,19 +431,18 @@ const ScrollImageSequence: React.FC<{ config: any, scrollContainerRef: React.Ref
     );
 };
 
-// 🟢 NEW: Component for Project 2 Video Interaction (Flip to Play)
-// Updated to be an Absolute Overlay (Fixed relative to Modal)
+// 🟢 NEW: Component for Project 2 Video Interaction (Flip to Play) - Now with Fullscreen support
 const Project2FlipVideo: React.FC<{ config: any }> = ({ config }) => {
     const [isFlipped, setIsFlipped] = useState(false);
-    const [isHidden, setIsHidden] = useState(false); // 🟢 NEW: Hidden State
-    const [isLoading, setIsLoading] = useState(true); // 🟢 NEW: Loading State
+    const [isFullscreen, setIsFullscreen] = useState(false);
+    const [isHidden, setIsHidden] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const videoRef = useRef<HTMLVideoElement>(null);
-    const justHiddenRef = useRef(false); // 🟢 NEW: Prevents instant restore on hover
+    const fullscreenVideoRef = useRef<HTMLVideoElement>(null);
+    const justHiddenRef = useRef(false);
 
     const handleFlip = (e: React.MouseEvent) => {
-        // Prevent flip if we just clicked hidden (double safety)
         if (justHiddenRef.current) return;
-
         e.stopPropagation();
         if (isHidden) return;
         setIsFlipped(true);
@@ -455,23 +454,30 @@ const Project2FlipVideo: React.FC<{ config: any }> = ({ config }) => {
         if (videoRef.current) {
             videoRef.current.pause();
             videoRef.current.currentTime = 0;
-            // 🟢 Resume music when closed
             window.dispatchEvent(new Event('resume-background-music'));
         }
     };
 
-    // 🟢 NEW: Handle Hide Click Robustly
     const handleHide = (e: React.MouseEvent) => {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
-        
         justHiddenRef.current = true;
         setIsHidden(true);
-        
-        // Reset the block after 500ms so user can restore it intentionally by re-entering
         setTimeout(() => {
             justHiddenRef.current = false;
         }, 500);
+    };
+
+    const openFullscreen = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setIsFullscreen(true);
+        window.dispatchEvent(new Event('pause-background-music'));
+    };
+
+    const closeFullscreen = (e?: any) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        setIsFullscreen(false);
+        window.dispatchEvent(new Event('resume-background-music'));
     };
 
     useEffect(() => {
@@ -482,142 +488,183 @@ const Project2FlipVideo: React.FC<{ config: any }> = ({ config }) => {
     }, [isFlipped]);
 
     return (
-        // 🟢 ABSOLUTE POSITIONING (Overlay Layer)
-        <div className="absolute top-0 left-0 w-full h-full flex justify-center pointer-events-none z-[60]">
-            <motion.div
-                className="relative pointer-events-auto group"
-                initial={{ y: 400 }} 
-                animate={{ 
-                    width: isFlipped ? 960 : (isHidden ? 50 : 320), // 🟢 INCREASED from 120 to 320
-                    height: isFlipped ? 540 : (isHidden ? 50 : 180), // 🟢 INCREASED from 120 to 180
-                    rotateY: isFlipped ? 180 : 0,
-                    // 🟢 POSITION LOGIC:
-                    // Flipped: y=140
-                    // Hidden: y=80, x=-440 (Top Left)
-                    // Normal: y=400, x=0
-                    y: isFlipped ? 140 : (isHidden ? 80 : 380),
-                    x: isFlipped ? 0 : (isHidden ? -440 : 0),
-                    opacity: isHidden ? 0.6 : 1
-                }}
-                transition={{ type: "spring", stiffness: 60, damping: 14 }}
-                style={{ transformStyle: "preserve-3d" }}
-                // 🟢 RESTORE ON HOVER
-                onMouseEnter={() => {
-                    // Only restore if hidden AND not just hidden
-                    if (isHidden && !justHiddenRef.current) setIsHidden(false);
-                }}
-            >
-                {/* 1. FRONT FACE (Play Button) */}
-                <div 
-                    className="absolute inset-0 backface-hidden"
-                    style={{ backfaceVisibility: 'hidden' }}
+        <>
+            <div className="absolute top-0 left-0 w-full h-full flex justify-center pointer-events-none z-[60]">
+                <motion.div
+                    className="relative pointer-events-auto group"
+                    initial={{ y: 400 }} 
+                    animate={{ 
+                        width: isFlipped ? 960 : (isHidden ? 50 : 320),
+                        height: isFlipped ? 540 : (isHidden ? 50 : 320),
+                        rotateY: isFlipped ? 180 : 0,
+                        y: isFlipped ? 140 : (isHidden ? 80 : 380),
+                        x: isFlipped ? 0 : (isHidden ? -440 : 0),
+                        opacity: isHidden ? 0.6 : 1
+                    }}
+                    transition={{ type: "spring", stiffness: 60, damping: 14 }}
+                    style={{ transformStyle: "preserve-3d" }}
+                    onMouseEnter={() => {
+                        if (isHidden && !justHiddenRef.current) setIsHidden(false);
+                    }}
                 >
-                    {/* CLICKABLE PLAY AREA */}
+                    {/* 1. FRONT FACE (Play Button) */}
                     <div 
-                        className="absolute inset-0 flex items-center justify-center cursor-pointer"
-                        onClick={handleFlip}
+                        className="absolute inset-0 backface-hidden bg-black"
+                        style={{ backfaceVisibility: 'hidden' }}
                     >
-                        <motion.div 
-                            whileHover={{ scale: 1.1 }}
-                            className="w-full h-full rounded-full bg-white/20 backdrop-blur-xl border border-white/50 flex items-center justify-center shadow-[0_20px_40px_rgba(0,0,0,0.2)]"
-                        >
-                            {/* 🟢 BUTTON COLOR: #D40411 - ENLARGED HIT AREA */}
-                            <div className={`rounded-full bg-white text-[#D40411] flex items-center justify-center shadow-inner transition-all duration-300 ${isHidden ? 'w-8 h-8' : 'w-24 h-24 group-hover:scale-110'}`}>
-                                <svg width={isHidden ? "14" : "32"} height={isHidden ? "14" : "32"} viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                                </svg>
-                            </div>
-                            
-                            {/* Pulse Ring (Hidden when minimized) */}
-                            {!isHidden && (
-                                <div className="absolute inset-0 rounded-full border border-white/40 animate-ping opacity-20" />
-                            )}
-                        </motion.div>
-                    </div>
-
-                    {/* INDEPENDENT CLOSE BUTTON AREA */}
-                    {!isFlipped && !isHidden && (
                         <div 
-                            className="absolute -top-3 -right-3 w-10 h-10 z-[100] flex items-center justify-center cursor-pointer pointer-events-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                            onClick={handleHide}
-                            onMouseDown={(e) => e.stopPropagation()}
+                            className="absolute inset-0 flex items-center justify-center cursor-pointer"
+                            onClick={handleFlip}
                         >
-                            <motion.div
-                                className="w-8 h-8 bg-white text-gray-500 hover:bg-gray-200 border border-gray-200 rounded-full flex items-center justify-center shadow-md"
+                            <motion.div 
                                 whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.9 }}
+                                className="w-full h-full rounded-full bg-white/20 backdrop-blur-xl border border-white/50 flex items-center justify-center shadow-[0_20px_40px_rgba(0,0,0,0.2)]"
                             >
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                                </svg>
+                                <div className={`rounded-full bg-white text-[#D40411] flex items-center justify-center shadow-inner transition-all duration-300 ${isHidden ? 'w-8 h-8' : 'w-24 h-24 group-hover:scale-110'}`}>
+                                    <svg width={isHidden ? "14" : "32"} height={isHidden ? "14" : "32"} viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                    </svg>
+                                </div>
+                                {!isHidden && (
+                                    <div className="absolute inset-0 rounded-full border border-white/40 animate-ping opacity-20" />
+                                )}
                             </motion.div>
                         </div>
-                    )}
-                </div>
 
-                {/* 2. BACK FACE (Video Player) */}
-                <div 
-                    className="absolute inset-0 backface-hidden rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/20"
-                    style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
-                >
-                    {/* 🟢 LOADING SPINNER */}
-                    {isLoading && (
-                        <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-                            <div className="w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin" />
-                        </div>
-                    )}
+                        {!isFlipped && !isHidden && (
+                            <div 
+                                className="absolute -top-3 -right-3 w-10 h-10 z-[100] flex items-center justify-center cursor-pointer pointer-events-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                onClick={handleHide}
+                                onMouseDown={(e) => e.stopPropagation()}
+                            >
+                                <motion.div
+                                    className="w-8 h-8 bg-white text-gray-500 hover:bg-gray-200 border border-gray-200 rounded-full flex items-center justify-center shadow-md"
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
+                                >
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                    </svg>
+                                </motion.div>
+                            </div>
+                        )}
+                    </div>
 
-                    <video 
-                        ref={videoRef}
-                        src={config.videoUrl}
-                        className="w-full h-full object-cover"
-                        controls
-                        preload="metadata" // 🟢 OPTIMIZATION: metadata only first
-                        onWaiting={() => setIsLoading(true)}
-                        onCanPlay={() => setIsLoading(false)}
-                        // 🟢 Resume music on video end
-                        onEnded={() => {
-                            window.dispatchEvent(new Event('resume-background-music'));
-                        }}
-                    />
-                    
-                    {/* Close Video Button */}
-                    <button 
-                        onClick={handleClose}
-                        className="absolute top-4 right-4 w-10 h-10 bg-black/50 hover:bg-[#D40411] text-white rounded-full flex items-center justify-center backdrop-blur-md transition-colors border border-white/10 z-20 shadow-lg"
+                    {/* 2. BACK FACE (Video Player) */}
+                    <div 
+                        className="absolute inset-0 backface-hidden rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/20"
+                        style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
                     >
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        {isLoading && (
+                            <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+                                <div className="w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin" />
+                            </div>
+                        )}
+
+                        <video 
+                            ref={videoRef}
+                            src={config.videoUrl}
+                            className="w-full h-full object-cover"
+                            controls
+                            preload="metadata"
+                            onWaiting={() => setIsLoading(true)}
+                            onCanPlay={() => setIsLoading(false)}
+                            onEnded={() => {
+                                window.dispatchEvent(new Event('resume-background-music'));
+                            }}
+                            onClick={openFullscreen}
+                        />
+                        
+                        {/* Fullscreen Hint Button */}
+                        <button 
+                            onClick={openFullscreen}
+                            className="absolute top-4 left-4 w-10 h-10 bg-black/50 hover:bg-white/20 text-white rounded-full flex items-center justify-center backdrop-blur-md transition-colors border border-white/10 z-20 shadow-lg"
+                        >
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <polyline points="9 21 3 21 3 15"></polyline>
+                                <line x1="21" y1="3" x2="14" y2="10"></line>
+                                <line x1="3" y1="21" x2="10" y2="14"></line>
+                            </svg>
+                        </button>
+
+                        {/* Close Video Button */}
+                        <button 
+                            onClick={handleClose}
+                            className="absolute top-4 right-4 w-10 h-10 bg-black/50 hover:bg-[#D40411] text-white rounded-full flex items-center justify-center backdrop-blur-md transition-colors border border-white/10 z-20 shadow-lg"
+                        >
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </motion.div>
+            </div>
+
+            {/* 🟢 FULLSCREEN PORTAL */}
+            {isFullscreen && createPortal(
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-[9999] bg-black flex items-center justify-center"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <video 
+                        ref={fullscreenVideoRef}
+                        src={config.videoUrl}
+                        className="w-full h-full object-contain"
+                        controls
+                        autoPlay
+                        onEnded={closeFullscreen}
+                    />
+                    <button 
+                        onClick={closeFullscreen}
+                        className="absolute top-8 right-8 w-12 h-12 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center backdrop-blur-xl border border-white/20 transition-all z-[10000]"
+                    >
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
                             <line x1="6" y1="6" x2="18" y2="18"></line>
                         </svg>
                     </button>
-                </div>
-            </motion.div>
-        </div>
+                </motion.div>,
+                document.body
+            )}
+        </>
     );
 };
 
-// 🟢 NEW: Clickable Video Player for absolute positioning
+// 🟢 NEW: Clickable Video Player for absolute positioning - Now with Fullscreen support
 const AbsoluteClickableVideo: React.FC<{ url: string, scale?: number, style?: React.CSSProperties }> = ({ url, scale = 1, style }) => {
     const videoRef = useRef<HTMLVideoElement>(null);
+    const fullscreenVideoRef = useRef<HTMLVideoElement>(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [isFullscreen, setIsFullscreen] = useState(false);
 
-    const togglePlay = () => {
-        if (!videoRef.current) return;
-        
-        if (isPlaying) {
-            videoRef.current.pause();
-            setIsPlaying(false);
-            window.dispatchEvent(new Event('resume-background-music'));
-        } else {
-            // Pause background music before playing video
-            window.dispatchEvent(new Event('pause-background-music'));
-            videoRef.current.play();
+    const openFullscreen = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setIsFullscreen(true);
+        window.dispatchEvent(new Event('pause-background-music'));
+    };
+
+    const closeFullscreen = (e?: any) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        setIsFullscreen(false);
+        setIsPlaying(false);
+        // Resume background music only if we aren't in another video context
+        window.dispatchEvent(new Event('resume-background-music'));
+    };
+
+    // Auto play when fullscreen
+    useEffect(() => {
+        if (isFullscreen && fullscreenVideoRef.current) {
+            fullscreenVideoRef.current.play().catch(e => console.error("Fullscreen play failed", e));
             setIsPlaying(true);
         }
-    };
+    }, [isFullscreen]);
 
     return (
         <div 
@@ -628,9 +675,9 @@ const AbsoluteClickableVideo: React.FC<{ url: string, scale?: number, style?: Re
                 transformOrigin: 'top center',
                 transform: `scale(${scale})`
             }}
-            onClick={togglePlay}
+            onClick={openFullscreen}
         >
-            <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 bg-black min-h-[400px]">
+            <div className="relative w-full aspect-square overflow-hidden bg-black">
                 {/* 🟢 LOADING SPINNER */}
                 {isLoading && (
                     <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
@@ -641,20 +688,17 @@ const AbsoluteClickableVideo: React.FC<{ url: string, scale?: number, style?: Re
                 <video 
                     ref={videoRef}
                     src={url}
-                    className="w-full h-auto block"
+                    className="w-full h-full object-cover block"
                     loop
+                    muted
                     playsInline
                     preload="metadata"
                     onWaiting={() => setIsLoading(true)}
                     onCanPlay={() => setIsLoading(false)}
-                    onEnded={() => {
-                        setIsPlaying(false);
-                        window.dispatchEvent(new Event('resume-background-music'));
-                    }}
                 />
                 
                 {/* Play Overlay */}
-                {!isPlaying && !isLoading && (
+                {!isLoading && (
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center backdrop-blur-sm group-hover:bg-black/20 transition-all duration-300">
                         <div className="w-20 h-20 rounded-full bg-white/20 border border-white/50 backdrop-blur-md flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                              <svg width="32" height="32" viewBox="0 0 24 24" fill="white" stroke="none">
@@ -664,11 +708,43 @@ const AbsoluteClickableVideo: React.FC<{ url: string, scale?: number, style?: Re
                     </div>
                 )}
             </div>
+
+            {/* 🟢 FULLSCREEN OVERLAY PORTAL */}
+            {isFullscreen && createPortal(
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-[9999] bg-black flex items-center justify-center"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <video 
+                        ref={fullscreenVideoRef}
+                        src={url}
+                        className="w-full h-full object-contain"
+                        controls
+                        autoPlay
+                        onEnded={closeFullscreen}
+                    />
+                    
+                    {/* EXIT BUTTON */}
+                    <button 
+                        onClick={closeFullscreen}
+                        className="absolute top-8 right-8 w-12 h-12 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center backdrop-blur-xl border border-white/20 transition-all z-[10000]"
+                    >
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </motion.div>,
+                document.body
+            )}
         </div>
     );
 };
 
-// 🟢 NEW: Flip Card Component for Project 6 (Updated with Dynamic Size & Spotlight Border)
+// 🟢 NEW: Flip Card Component for Project 6 (Updated with Dynamic Size, Spotlight Border & Fullscreen support)
 const FlipVideoCard: React.FC<{ 
     item: any; 
     index: number; 
@@ -678,7 +754,9 @@ const FlipVideoCard: React.FC<{
 }> = ({ item, index, color, activeVideoIndex, setActiveVideoIndex }) => {
     const [isFlipped, setIsFlipped] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [isFullscreen, setIsFullscreen] = useState(false);
     const videoRef = useRef<HTMLVideoElement>(null);
+    const fullscreenVideoRef = useRef<HTMLVideoElement>(null);
     const cardRef = useRef<HTMLDivElement>(null);
     
     // Mouse tracking for spotlight border
@@ -700,6 +778,18 @@ const FlipVideoCard: React.FC<{
         if (nextState === false) {
             window.dispatchEvent(new Event('resume-background-music'));
         }
+    };
+
+    const openFullscreen = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setIsFullscreen(true);
+        window.dispatchEvent(new Event('pause-background-music'));
+    };
+
+    const closeFullscreen = (e?: any) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        setIsFullscreen(false);
+        window.dispatchEvent(new Event('resume-background-music'));
     };
 
     // Auto-play video when flipped
@@ -727,143 +817,160 @@ const FlipVideoCard: React.FC<{
     }, [activeVideoIndex, index]);
 
     // 🟢 DYNAMIC SIZING LOGIC
-    // Use flippedWidth/Height if available and flipped, otherwise fallback to default dimensions
     const currentWidth = isFlipped ? (item.flippedWidth || item.width || 320) : (item.width || 320);
     const currentHeight = isFlipped ? (item.flippedHeight || item.height || 569) : (item.height || 569);
 
     return (
-        <motion.div 
-            ref={cardRef}
-            className="relative shrink-0 perspective-1000 cursor-pointer group"
-            style={{ 
-                // 🟢 Y Position (Vertical Offset)
-                marginTop: item.y ? `${item.y}px` : '0px',
-                
-                // 🟢 X Position (Horizontal Offset / Margin Left)
-                // You can now use 'x' in your data file to push a card to the right!
-                marginLeft: item.x ? `${item.x}px` : '0px', 
-                
-                transform: `scale(${item.scale || 1})`
-            }}
-            // Animate container dimensions
-            animate={{ width: currentWidth, height: currentHeight }}
-            transition={{ type: "spring", stiffness: 60, damping: 12 }}
-            onMouseMove={handleMouseMove}
-            onClick={handleFlip}
-        >
-             {/* 🟢 NEW: INTRO TEXT (Rendered outside the flipping container but inside the relative wrapper) */}
-             {item.introConfig && (
-                <div 
-                    className="absolute pointer-events-none z-0 hidden md:block" 
-                    style={{
-                        left: `${item.introConfig.x}px`,
-                        top: `${item.introConfig.y}px`,
-                        width: item.introConfig.width || '200px',
-                        transform: `rotate(${item.introConfig.rotate || 0}deg)`,
-                        textAlign: (item.introConfig.align as any) || 'right'
-                    }}
-                >
-                    <p 
-                        className="font-albert-light text-white/70 whitespace-pre-line leading-relaxed"
-                        style={{ fontSize: item.introConfig.fontSize || '14px' }}
-                    >
-                        {item.introConfig.text}
-                    </p>
-                </div>
-            )}
-
-            <motion.div
-                className="w-full h-full relative"
-                initial={false}
-                animate={{ rotateY: isFlipped ? 180 : 0 }}
-                transition={{ duration: 0.8, type: "spring", stiffness: 60, damping: 12 }}
-                style={{ transformStyle: "preserve-3d" }}
+        <>
+            <motion.div 
+                ref={cardRef}
+                className="relative shrink-0 perspective-1000 cursor-pointer group"
+                style={{ 
+                    marginTop: item.y ? `${item.y}px` : '0px',
+                    marginLeft: item.x ? `${item.x}px` : '0px', 
+                    transform: `scale(${item.scale || 1})`
+                }}
+                animate={{ width: currentWidth, height: currentHeight }}
+                transition={{ type: "spring", stiffness: 60, damping: 12 }}
+                onMouseMove={handleMouseMove}
+                onClick={handleFlip}
             >
-                {/* --- FRONT: IMAGE --- */}
-                <div 
-                    className="absolute inset-0 backface-hidden rounded-3xl overflow-hidden bg-white transition-shadow duration-300"
-                    style={{ 
-                        backfaceVisibility: 'hidden',
-                    }}
-                >
-                    {/* 🟢 SPOTLIGHT BORDER EFFECT */}
-                    {/* This layer creates the glowing border mask */}
-                    <motion.div
-                        className="absolute inset-0 z-20 pointer-events-none rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                {/* ... Intro text config ... */}
+                {item.introConfig && (
+                    <div 
+                        className="absolute pointer-events-none z-0 hidden md:block" 
                         style={{
-                            padding: '3px', // Border width
-                            background: color, // The dynamic brand color
-                            maskImage: useMotionTemplate`radial-gradient(300px circle at ${mouseX}px ${mouseY}px, black, transparent)`,
-                            WebkitMaskImage: useMotionTemplate`radial-gradient(300px circle at ${mouseX}px ${mouseY}px, black, transparent)`,
+                            left: `${item.introConfig.x}px`,
+                            top: `${item.introConfig.y}px`,
+                            width: item.introConfig.width || '200px',
+                            transform: `rotate(${item.introConfig.rotate || 0}deg)`,
+                            textAlign: (item.introConfig.align as any) || 'right'
                         }}
                     >
-                        {/* Mask inner content to create border shape */}
-                        <div className="w-full h-full bg-black rounded-[calc(1.5rem-2px)]" />
-                    </motion.div>
-
-                    {/* 🟢 DYNAMIC COLORED SHADOW (ON HOVER) */}
-                    <motion.div 
-                        className="absolute inset-4 rounded-3xl blur-2xl opacity-0 group-hover:opacity-60 transition-opacity duration-500 z-0"
-                        style={{ backgroundColor: color }}
-                    />
-
-                    {/* Image Container */}
-                    <div className="absolute inset-[2px] rounded-[calc(1.5rem-2px)] overflow-hidden z-10 bg-white">
-                        <img src={item.img} alt={item.title} className="w-full h-full object-cover relative" />
-                        
-                        {/* Overlay Hint */}
-                        <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
-                             <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md border border-white/50 flex items-center justify-center">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-                                    <polyline points="16 6 12 2 8 6" />
-                                    <line x1="12" y1="2" x2="12" y2="15" />
-                                </svg>
-                             </div>
-                        </div>
+                        <p 
+                            className="font-albert-light text-white/70 whitespace-pre-line leading-relaxed"
+                            style={{ fontSize: item.introConfig.fontSize || '14px' }}
+                        >
+                            {item.introConfig.text}
+                        </p>
                     </div>
-                    
-                    <div className="absolute bottom-6 left-6 right-6 z-20 pointer-events-none">
-                        <span className="px-3 py-1 bg-black/50 backdrop-blur-md rounded-full text-xs font-bold text-white border border-white/20">
-                            CLICK TO FLIP
-                        </span>
-                    </div>
-                </div>
+                )}
 
-                {/* --- BACK: VIDEO --- */}
-                <div 
-                    className="absolute inset-0 backface-hidden rounded-3xl overflow-hidden bg-black shadow-xl border border-white/10"
-                    style={{ 
-                        backfaceVisibility: 'hidden', 
-                        transform: 'rotateY(180deg)' 
-                    }}
+                <motion.div
+                    className="w-full h-full relative"
+                    initial={false}
+                    animate={{ rotateY: isFlipped ? 180 : 0 }}
+                    transition={{ duration: 0.8, type: "spring", stiffness: 60, damping: 12 }}
+                    style={{ transformStyle: "preserve-3d" }}
                 >
-                    {/* 🟢 LOADING SPINNER */}
-                    {isLoading && (
-                        <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-                            <div className="w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin" />
-                        </div>
-                    )}
+                    {/* --- FRONT: IMAGE --- */}
+                    <div 
+                        className="absolute inset-0 backface-hidden overflow-hidden bg-white"
+                        style={{ backfaceVisibility: 'hidden' }}
+                    >
+                        {/* 🟢 SPOTLIGHT BORDER EFFECT */}
+                        <motion.div
+                            className="absolute inset-0 z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                            style={{
+                                padding: '1px',
+                                background: color,
+                                maskImage: useMotionTemplate`radial-gradient(300px circle at ${mouseX}px ${mouseY}px, black, transparent)`,
+                                WebkitMaskImage: useMotionTemplate`radial-gradient(300px circle at ${mouseX}px ${mouseY}px, black, transparent)`,
+                            }}
+                        >
+                            <div className="w-full h-full bg-black" />
+                        </motion.div>
 
-                    <video 
-                        ref={videoRef}
-                        src={item.video} 
-                        className="w-full h-full object-cover"
-                        loop={false} // 🟢 Don't loop if we want to catch onEnded
-                        playsInline
-                        preload="metadata"
-                        onWaiting={() => setIsLoading(true)}
-                        onCanPlay={() => setIsLoading(false)}
-                        // 🟢 FIX: Handle music resume when video ends naturally
-                        onEnded={() => {
-                            window.dispatchEvent(new Event('resume-background-music'));
-                            setIsFlipped(false); // Optional: Flip back when done
-                        }}
-                        onError={(e) => console.error("Video Error:", e)}
-                    />
-                </div>
+                        <div className="absolute inset-0 overflow-hidden z-10 bg-white">
+                            <img src={item.img} alt={item.title} className="w-full h-full object-cover relative" />
+                            <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                                <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md border border-white/50 flex items-center justify-center">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="white" stroke="none">
+                                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div className="absolute bottom-6 left-6 right-6 z-20 pointer-events-none">
+                            <span className="px-3 py-1 bg-black/50 backdrop-blur-md rounded-full text-xs font-bold text-white border border-white/20">
+                                点击播放
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* --- BACK: VIDEO --- */}
+                    <div 
+                        className="absolute inset-0 backface-hidden overflow-hidden bg-black shadow-none border-none"
+                        style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+                    >
+                        {isLoading && (
+                            <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+                                <div className="w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin" />
+                            </div>
+                        )}
+
+                        <video 
+                            ref={videoRef}
+                            src={item.video} 
+                            className="w-full h-full object-cover"
+                            loop={false}
+                            playsInline
+                            preload="metadata"
+                            onWaiting={() => setIsLoading(true)}
+                            onCanPlay={() => setIsLoading(false)}
+                            onEnded={() => {
+                                window.dispatchEvent(new Event('resume-background-music'));
+                            }}
+                            onClick={openFullscreen}
+                        />
+
+                        {/* Fullscreen Hint Button */}
+                        <div 
+                            className="absolute bottom-4 right-4 bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md p-2 rounded-lg text-white transition-all scale-75 group-hover:scale-100"
+                            onClick={openFullscreen}
+                        >
+                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <polyline points="9 21 3 21 3 15"></polyline>
+                                <line x1="21" y1="3" x2="14" y2="10"></line>
+                                <line x1="3" y1="21" x2="10" y2="14"></line>
+                            </svg>
+                        </div>
+                    </div>
+                </motion.div>
             </motion.div>
-        </motion.div>
+
+            {/* 🟢 FULLSCREEN PORTAL */}
+            {isFullscreen && createPortal(
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-[9999] bg-black flex items-center justify-center"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <video 
+                        ref={fullscreenVideoRef}
+                        src={item.video}
+                        className="w-full h-full object-contain"
+                        controls
+                        autoPlay
+                        onEnded={closeFullscreen}
+                    />
+                    <button 
+                        onClick={closeFullscreen}
+                        className="absolute top-8 right-8 w-12 h-12 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center backdrop-blur-xl border border-white/20 transition-all z-[10000]"
+                    >
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </motion.div>,
+                document.body
+            )}
+        </>
     );
 };
 
@@ -1321,40 +1428,12 @@ const GalleryModalView: React.FC<{ images: string[], projectId?: number, project
                 <div 
                     className="flex flex-col w-full relative"
                     style={{ 
-                        // Project 1 needs specific height for absolute elements (max Y is ~10420px)
-                        // Project 2: Changed to 'auto' to adapt to content height (fixed black space issue)
                         // Project 4: Needs specific height for absolute elements at ~16400px
-                        minHeight: projectId === 1 ? '11000px' : (projectId === 4 ? '18000px' : 'auto')
+                        minHeight: projectId === 4 ? '18000px' : (projectId === 5 ? '2000px' : 'auto')
                     }}
                 >
                     
-                    {projectId === 1 && project?.sequenceConfig1 ? (
-                        <>
-                            {/* 1. First Image */}
-                            {images[0] && (
-                                <div className="w-full bg-black">
-                                    <img src={images[0]} className="w-full h-auto block" loading="lazy" decoding="async" alt="P1 Part 1" />
-                                </div>
-                            )}
-                            
-                            {/* 2. Second Image */}
-                            {images[1] && (
-                                <div className="w-full bg-black">
-                                    <img src={images[1]} className="w-full h-auto block" loading="lazy" decoding="async" alt="P1 Part 2" />
-                                </div>
-                            )}
-                            
-                            {/* 3. SCROLL SEQUENCE */}
-                            <ScrollImageSequence config={project.sequenceConfig1} scrollContainerRef={scrollContainerRef} />
-                            
-                            {/* 4. Third Image */}
-                            {images[2] && (
-                                <div className="w-full bg-black">
-                                    <img src={images[2]} className="w-full h-auto block" loading="lazy" decoding="async" alt="P1 Part 3" />
-                                </div>
-                            )}
-                        </>
-                    ) : projectId === 2 && project?.project2Config ? (
+                    {projectId === 2 && project?.project2Config ? (
                         // 🟢 PROJECT 2 UPDATED LOGIC: Full Width Stack
                         <div className="relative w-full bg-black flex flex-col items-center">
                             {/* Phone Overlay (Sticky or Absolute on top) */}
@@ -1500,115 +1579,6 @@ const GalleryModalView: React.FC<{ images: string[], projectId?: number, project
                         </>
                     )}
 
-                    {/* --- CUSTOM OVERLAY TEXTS FOR PROJECT 1 --- */}
-                    {projectId === 1 && (
-                        <>
-                            {/* --- 6. NEW: GROUP 1 CARDS (Updated with Hover Effects) --- */}
-                            {GROUP_1_CARDS_DATA.map(card => (
-                                <HoverCard 
-                                    key={card.id}
-                                    img={card.img}
-                                    style={{
-                                        position: 'absolute',
-                                        top: `${card.yOffset}px`,
-                                        left: '50%',
-                                        marginLeft: `${card.xOffset}px`,
-                                        width: `${card.width}px`,
-                                        height: `${card.height}px`,
-                                    }}
-                                    borderRadius={card.borderRadius}
-                                    baseRotate={card.rotate}
-                                    popOnHover={true}
-                                />
-                            ))}
-
-                            {/* --- 7. NEW: WAVE IMAGES --- */}
-                            {WAVE_IMAGES_CONFIG.map((item, idx) => (
-                                <motion.img
-                                    key={idx}
-                                    src={item.url}
-                                    style={{
-                                        position: 'absolute',
-                                        top: `${item.y}px`,
-                                        left: '50%',
-                                        marginLeft: `${item.x}px`,
-                                        width: `${item.width}px`,
-                                        zIndex: item.zIndex
-                                    }}
-                                    initial={{ opacity: 0, y: 50 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: item.delay, duration: 0.8 }}
-                                    alt="Wave"
-                                />
-                            ))}
-
-                            {/* --- 8. NEW: FOX RABBIT --- */}
-                            {CUSTOM_FOX_RABBIT_CONFIG.map((item, idx) => (
-                                <motion.div
-                                    key={idx}
-                                    style={{
-                                        position: 'absolute',
-                                        top: `${item.y}px`,
-                                        left: '50%',
-                                        marginLeft: '-375px', // Center correction for 750px width (half of 750)
-                                        width: '750px', 
-                                        height: 'auto',
-                                        zIndex: item.zIndex
-                                    }}
-                                >
-                                    <motion.img
-                                        src={item.url}
-                                        style={{
-                                            position: 'absolute',
-                                            // User provided X is likely offset from center or absolute left, 
-                                            // keeping your specific structure logic here:
-                                            left: 0, 
-                                            width: `${item.width}px`,
-                                        }}
-                                        initial={{ opacity: 0, scale: 0.95 }}
-                                        whileInView={{ opacity: 1, scale: 1 }}
-                                        transition={{ duration: 1 }}
-                                        alt="Fox"
-                                    />
-                                </motion.div>
-                            ))}
-
-                            {/* --- 9. NEW: CUSTOM SCATTERED IMAGES (d1-d4) Updated with Hover Effects --- */}
-                            <motion.div
-                                style={{
-                                    position: 'absolute',
-                                    top: '0',
-                                    left: '50%',
-                                    marginLeft: '-750px', // Assume coordinates are based on a 1500px canvas center
-                                    width: '1500px',
-                                    height: '1px', 
-                                    pointerEvents: 'none',
-                                    zIndex: 10
-                                }}
-                            >
-                                {CUSTOM_NEW_IMAGES.map((img) => (
-                                    <HoverCard 
-                                        key={img.id}
-                                        img={img.img}
-                                        style={{
-                                            position: 'absolute',
-                                            top: `${img.y}px`,
-                                            left: `${img.x}px`,
-                                            width: `${img.w}px`,
-                                            height: `${img.h}px`,
-                                            pointerEvents: 'auto'
-                                        }}
-                                        baseRotate={img.r}
-                                        popOnHover={false}
-                                    />
-                                ))}
-                            </motion.div>
-                            
-                            {/* 🟢 REMOVED: SCATTERED SOFTWARE ICONS FROM MODAL (Moved to Preview Card) */}
-
-                        </>
-                    )}
-
                     <div className="w-full py-32 text-center bg-black">
                         <p className="text-white/30 text-sm">End of Project Gallery</p>
                     </div>
@@ -1627,8 +1597,8 @@ const VinylProjects: React.FC = () => {
 
     // 🟢 NEW: Global Music Control Logic based on Modal State
     useEffect(() => {
-        // Project ID 6 is the video project
-        if (selectedProject?.id === 6) {
+        // Project ID 5 and 6 are video projects/contain videos
+        if (selectedProject?.id === 5 || selectedProject?.id === 6) {
             // Pause background music when entering Project 6 modal
             window.dispatchEvent(new Event('pause-background-music'));
         } else {

@@ -64,17 +64,18 @@ export const CUSTOM_NEW_IMAGES = [
 
 // 🇨🇳 CHINA OPTIMIZATION: Tool Icons
 export const TOOL_ICONS: Record<string, string> = {
-    'Figma': 'https://cdn.jsdmirror.com/gh/devicons/devicon/icons/figma/figma-original.svg',
-    'PS': 'https://cdn.jsdmirror.com/gh/devicons/devicon/icons/photoshop/photoshop-original.svg',
-    'AI': 'https://cdn.jsdmirror.com/gh/devicons/devicon/icons/illustrator/illustrator-plain.svg',
-    'AE': 'https://cdn.jsdmirror.com/gh/devicons/devicon/icons/aftereffects/aftereffects-original.svg',
-    'Blender': 'https://cdn.jsdmirror.com/gh/devicons/devicon/icons/blender/blender-original.svg',
-    'C4D': 'https://cdn.jsdmirror.com/gh/jayneysil520-dev/jayneysil@main/1197px-C4D_Logo.png',
-    'React': 'https://cdn.jsdmirror.com/gh/devicons/devicon/icons/react/react-original.svg',
-    'ThreeJS': 'https://cdn.jsdmirror.com/gh/devicons/devicon/icons/threejs/threejs-original.svg', 
-    'Jimeng': 'https://cdn.jsdmirror.com/gh/jayneysil520-dev/jayneysil@main/%E5%8D%B3%E6%A2%A6icon.png',
-    'Pinterest': 'https://cdn.jsdmirror.com/gh/devicons/devicon/icons/pinterest/pinterest-original.svg',
-    'LibLib': 'https://cdn.jsdmirror.com/gh/jayneysil520-dev/jayneysil@main/liblib.png'
+    'PS': 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/rj/ps.webp',
+    'AI': 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/rj/ai.webp',
+    'AE': 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/rj/ae.webp',
+    'Pr': 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/rj/pr.webp',
+    'C4D': 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/rj/c4d.webp',
+    'Blender': 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/rj/blander.webp',
+    'Sketch': 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/rj/sketch.webp',
+    'Word': 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/rj/word.webp',
+    'Excel': 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/rj/excel.webp',
+    'PPT': 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/rj/ppt.webp',
+    'FCPX': 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/rj/fcpx.webp',
+    'Capture One': 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/rj/capture%20one.webp'
 };
 
 // Project Data
@@ -86,14 +87,16 @@ export const PROJECTS_DATA = [
       year: '2019', 
       client: '杭州天目里', 
       color: '#E33333', 
-      img: 'https://github.com/hfseakeen/hf.wang-material/blob/main/images/tml-fm.jpg?raw=true', 
+      img: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/tml/tml-fm.webp', 
       desc: '主导天目里品牌全案设计，包括标志提案、网站设计、品牌策略、导视设计、及60余项线下物料。',
       tools: ['PS', 'AI', 'AE'],
       previewTextColor: {
         year: '#E6E6E6', label: '#E6E6E6', title: '#FFFFFF', description: '#D9D9D9', tools: '#E6E6E6', arrow: '#000000', cardBorder: 'rgba(0,0,0,0.1)'
       },
       layout: 'gallery', 
-      detailImages: ['https://github.com/hfseakeen/hf.wang-material/blob/main/images/tml.jpg?raw=true'],
+      detailImages: [
+        'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/tml/tml-01.webp'
+      ],
   },
   { 
       id: 2, 
@@ -101,14 +104,18 @@ export const PROJECTS_DATA = [
       label: '品牌视觉设计', 
       year: '2019', 
       color: '#005C4B', 
-      img: 'https://github.com/hfseakeen/hf.wang-material/blob/main/images/roys-fm.png?raw=true', 
+      img: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/roys/roys-fm.webp', 
       desc: '主导乐亦思品牌全案设计，包括标志提案、网站设计、品牌策略、导视设计、及70余项线下物料。',
       tools: ['PS', 'AI', 'AE'],
       previewTextColor: {
         year: '#404040', label: '#404040', title: '#000000', description: '#404040', tools: '#000000', arrow: '#000000', cardBorder: 'rgba(0,0,0,0.1)'
       },
       layout: 'gallery',
-      detailImages: ['https://github.com/hfseakeen/hf.wang-material/blob/main/images/roys.jpg?raw=true'], 
+      detailImages: [
+        'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/roys/roys-01.webp',
+        'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/roys/roys-02.webp',
+        'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/roys/roys-03.webp'
+      ], 
   },
   { 
       id: 3, 
@@ -116,53 +123,64 @@ export const PROJECTS_DATA = [
       label: '品牌视觉设计', 
       year: '2025', 
       color: '#4DA6FF', 
-      img: 'https://github.com/hfseakeen/hf.wang-material/blob/main/images/ajly-fm.png?raw=true', 
+      img: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/ajly/ajly-fm.webp', 
       desc: '主导安居乐寓品牌全案设计，包括标志提案、网站设计、品牌策略、导视设计、及70余项线下物料。',
       tools: ['PS', 'AI', 'AE'],
       previewTextColor: {
         year: '#404040', label: '#404040', title: '#000000', description: '#404040', tools: '#000000', arrow: '#000000', cardBorder: 'rgba(0,0,0,0.1)'
       },
       layout: 'gallery',
-      detailImages: ['https://github.com/hfseakeen/hf.wang-material/blob/main/images/ajly.png?raw=true'],
+      detailImages: [
+        'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/ajly/ajly-01.webp',
+        'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/ajly/ajly-02.webp'
+      ], 
   },
   { 
       id: 4, 
-      title: 'GOA 大象设计官网', 
-      label: '网站视觉设计', 
+      title: '京东VIS品牌视觉识别系统', 
+      label: '品牌视觉设计', 
       year: '2019', 
       color: '#EA2F2F', 
-      img: 'https://picsum.photos/seed/goa_project/800/600', 
-      desc: '与原研哉设计研究所深度合作，负责大象设计官网视觉体系构建，助力品牌提升国际知名度与专业影响力。',
-      tools: ['Figma', 'PS', 'AI'],
+      img: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/jd/jdjr-fm.webp', 
+      desc: '主导京东VIS品牌视觉识别系统，包括标志提案、网站设计、品牌策略、导视设计、及100+余项线下物料',
+      tools: ['PS', 'AI', 'AE'],
       previewTextColor: {
         year: '#404040', label: '#404040', title: '#000000', description: '#404040', tools: '#000000', arrow: '#000000', cardBorder: 'rgba(0,0,0,0.1)'
       },
       layout: 'gallery',
-      detailImages: ['https://picsum.photos/seed/goa_d1/1200/800'],
+      detailImages: [
+        'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/jd/jdjr-01.webp',
+        'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/jd/jdjr-02.webp',
+        'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/jd/jdjr-03.webp'
+      ], 
   },
   { 
       id: 5, 
-      title: '视觉策略研究', 
-      label: '设计探索', 
-      year: '2023', 
+      title: 'Farmacy', 
+      label: '产品摄影', 
+      year: '2025', 
       color: '#FF7F27', 
-      img: 'https://picsum.photos/seed/p5/800/600', 
-      desc: '针对电商与品牌传播，持续探索前沿视觉语言，结合 AIGC 工具提升创作效率与视觉张力。',
+      img: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/farmacy/farmacy-fm.webp', 
+      desc: '商业产品拍摄，针对电商与品牌传播，持续探索前沿视觉语言，结合 AIGC 工具提升创作效率与视觉张力。',
       tools: ['Jimeng', 'PS', 'AI'],
       previewTextColor: {
         year: '#E6E6E6', label: '#E6E6E6', title: '#FFFFFF', description: '#E6E6E6', tools: '#000000', arrow: '#000000', cardBorder: 'rgba(0,0,0,0.1)'
       },
       layout: 'gallery',
-      detailImages: ['https://picsum.photos/seed/p5d1/1200/800']
+      detailImages: [],
+      extraContent: [
+        { type: 'video', url: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/farmacy/farmacy.mp4', y: 100, scale: 1.0 },
+        { type: 'video', url: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/farmacy/farmacy.mp4', y: 900, scale: 1.0 }
+      ]
   },
   { 
       id: 6, 
-      title: '动态品牌设计', 
-      label: '动态艺术', 
+      title: '待上传', 
+      label: '产品摄影', 
       year: '2022', 
       color: '#AA88EE', 
       img: 'https://picsum.photos/seed/p6/800/600', 
-      desc: '将动态图形融入品牌系统，创造更具活力的数字体验。',
+      desc: '商业产品拍摄，针对电商与品牌传播，持续探索前沿视觉语言，结合 AIGC 工具提升创作效率与视觉张力。',
       tools: ['AE', 'C4D'],
       previewTextColor: {
         year: '#000000', label: '#999999', title: '#000000', description: '#444444', tools: '#000000', arrow: '#000000', cardBorder: 'rgba(0,0,0,0.1)'
@@ -172,12 +190,12 @@ export const PROJECTS_DATA = [
   },
   { 
       id: 7, 
-      title: '个人摄影集萃', 
-      label: '作品画廊', 
+      title: '待上传', 
+      label: '产品摄影', 
       year: '2024', 
       color: '#4ECDC4', 
       img: 'https://picsum.photos/seed/p7/800/600', 
-      desc: '精选商业摄影与个人生活记录，聚焦光影质感与叙事表达。', 
+      desc: '商业产品拍摄，针对电商与品牌传播，持续探索前沿视觉语言，结合 AIGC 工具提升创作效率与视觉张力。', 
       tools: ['PS', 'LibLib'], 
       previewTextColor: {
         year: '#E6E6E6', label: '#E6E6E6', title: '#FFFFFF', description: '#E6E6E6', tools: '#000000', arrow: '#000000', cardBorder: 'rgba(0,0,0,0.1)'
@@ -187,12 +205,12 @@ export const PROJECTS_DATA = [
   },
   { 
       id: 8, 
-      title: 'UI 组件系统研究', 
-      label: '界面设计', 
+      title: '待上传', 
+      label: '产品摄影', 
       year: '2025', 
       color: '#7BC5FF', 
       img: 'https://picsum.photos/seed/p8/800/600', 
-      desc: '研究现代 Web 应用的流畅交互与模块化设计系统，提升用户端体验一致性。',
+      desc: '商业产品拍摄，针对电商与品牌传播，持续探索前沿视觉语言，结合 AIGC 工具提升创作效率与视觉张力。',
       tools: ['Figma', 'React'], 
       previewTextColor: {
         year: '#000000', label: '#999999', title: '#000000', description: '#444444', tools: '#000000', arrow: '#000000', cardBorder: 'rgba(0,0,0,0.1)'
