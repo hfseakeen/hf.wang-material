@@ -1,5 +1,5 @@
 
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState, useMemo, useEffect } from 'react';
 import { motion, useTransform, useMotionValue, useSpring, useScroll, useMotionTemplate, AnimatePresence } from 'framer-motion';
 import Magnetic from '../components/Magnetic';
 
@@ -348,6 +348,19 @@ const Skills: React.FC = () => {
 
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["35deg", "25deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-5deg", "5deg"]);
+
+  useEffect(() => {
+        const forcePlayVideos = () => {
+            const videos = document.querySelectorAll('video');
+            videos.forEach(video => {
+                video.play().catch(() => {});
+            });
+        };
+        document.addEventListener("WeixinJSBridgeReady", forcePlayVideos, false);
+        return () => {
+            document.removeEventListener("WeixinJSBridgeReady", forcePlayVideos, false);
+        };
+  }, []);
   const translateX = useTransform(mouseXSpring, [-0.5, 0.5], ["-2%", "2%"]);
 
   return (
@@ -386,7 +399,18 @@ const Skills: React.FC = () => {
                         {(skill.videoUrl || (skill as any).previewImg) ? (
                             <div className="w-full aspect-video rounded-xl overflow-hidden mt-2 border border-gray-100 relative">
                                 {skill.videoUrl ? (
-                                    <video src={skill.videoUrl} autoPlay loop muted playsInline className="w-full h-full object-cover" />
+                                    <video 
+                                        src={skill.videoUrl} 
+                                        autoPlay 
+                                        loop 
+                                        muted 
+                                        playsInline 
+                                        webkit-playsinline="true" 
+                                        x5-playsinline="true" 
+                                        x5-video-player-type="h5" 
+                                        x5-video-player-fullscreen="false"
+                                        className="w-full h-full object-cover" 
+                                    />
                                 ) : (
                                     <img src={(skill as any).previewImg} className="w-full h-full object-cover" />
                                 )}
@@ -534,6 +558,10 @@ const Skills: React.FC = () => {
                                             loop
                                             muted
                                             playsInline
+                                            webkit-playsinline="true" 
+                                            x5-playsinline="true" 
+                                            x5-video-player-type="h5" 
+                                            x5-video-player-fullscreen="false"
                                             preload="auto"
                                             className="w-full h-full object-cover"
                                         />

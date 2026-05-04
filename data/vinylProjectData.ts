@@ -162,7 +162,7 @@ export const PROJECTS_DATA = [
       color: '#FF7F27', 
       img: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/farmacy/farmacy-fm.webp', 
       desc: '商业产品拍摄，针对电商与品牌传播，持续探索前沿视觉语言，结合 AIGC 工具提升创作效率与视觉张力。',
-      tools: ['Jimeng', 'PS', 'AI'],
+      tools: ['PS', 'Blender', 'Capture One'],
       previewTextColor: {
         year: '#E6E6E6', label: '#E6E6E6', title: '#FFFFFF', description: '#E6E6E6', tools: '#000000', arrow: '#000000', cardBorder: 'rgba(0,0,0,0.1)'
       },
@@ -181,7 +181,7 @@ export const PROJECTS_DATA = [
       color: '#AA88EE', 
       img: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/nxcc/nxcc-fm.webp', 
       desc: '商业产品拍摄，针对电商与品牌传播，持续探索前沿视觉语言，结合 AIGC 工具提升创作效率与视觉张力。',
-      tools: ['AE', 'C4D'],
+      tools: ['PS', 'Capture One'],
       previewTextColor: {
         year: '#000000', label: '#999999', title: '#000000', description: '#444444', tools: '#000000', arrow: '#000000', cardBorder: 'rgba(0,0,0,0.1)'
       },
