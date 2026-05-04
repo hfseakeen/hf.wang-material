@@ -86,12 +86,12 @@ export const PROJECTS_DATA = [
       label: 'VI 系统设计', 
       year: '2019', 
       client: '杭州天目里', 
-      color: '#E33333', 
+      color: '#4BB593', 
       img: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/tml/tml-fm.webp', 
       desc: '主导天目里品牌全案设计，包括标志提案、网站设计、品牌策略、导视设计、及60余项线下物料。',
       tools: ['PS', 'AI', 'AE'],
       previewTextColor: {
-        year: '#E6E6E6', label: '#E6E6E6', title: '#FFFFFF', description: '#D9D9D9', tools: '#E6E6E6', arrow: '#000000', cardBorder: 'rgba(0,0,0,0.1)'
+        year: '#404040', label: '#404040', title: '#000000', description: '#404040', tools: '#000000', arrow: '#000000', cardBorder: 'rgba(0,0,0,0.1)'
       },
       layout: 'gallery', 
       detailImages: [
@@ -103,7 +103,7 @@ export const PROJECTS_DATA = [
       title: '乐亦思', 
       label: '品牌视觉设计', 
       year: '2019', 
-      color: '#005C4B', 
+      color: '#0055FF', 
       img: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/roys/roys-fm.webp', 
       desc: '主导乐亦思品牌全案设计，包括标志提案、网站设计、品牌策略、导视设计、及70余项线下物料。',
       tools: ['PS', 'AI', 'AE'],
@@ -175,18 +175,18 @@ export const PROJECTS_DATA = [
   },
   { 
       id: 6, 
-      title: '待上传', 
+      title: '丁香自研品-ManaGI奶香脆脆', 
       label: '产品摄影', 
       year: '2022', 
       color: '#AA88EE', 
-      img: 'https://picsum.photos/seed/p6/800/600', 
+      img: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/nxcc/nxcc-fm.webp', 
       desc: '商业产品拍摄，针对电商与品牌传播，持续探索前沿视觉语言，结合 AIGC 工具提升创作效率与视觉张力。',
       tools: ['AE', 'C4D'],
       previewTextColor: {
         year: '#000000', label: '#999999', title: '#000000', description: '#444444', tools: '#000000', arrow: '#000000', cardBorder: 'rgba(0,0,0,0.1)'
       },
       layout: 'gallery',
-      detailImages: ['https://picsum.photos/seed/p6d1/1200/800']
+      detailImages: ['https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/nxcc/nxcc-01.webp']
   },
   { 
       id: 7, 

@@ -49,111 +49,32 @@ const PROJECT_TINTS: Record<number, { id: string; r: number; g: number; b: numbe
 
 // 🟢 1. PROJECT 1 HOVER IMAGES CONFIGURATION
 const PROJECT_1_HOVER_CONFIG = [
+    { id: 'p1-1',isStripe: true, w: 613, h: 1565, x: 950, y: 80, scale: 5, rotate: 2, zIndex: 4, z: -75, delay: 0.2 }, // Top Left High
+    { id: 'p1-2',isStripe: true, w: 203, h: 485, x: 400, y: 80, scale: 3.5, rotate: 2, zIndex: 4, z: -76, delay: 0.2 }, // Bottom Right Low
+    { id: 'p1-3',isStripe: true, w: 597, h: 877, x: 860, y: 80, scale: 3.5, rotate: 2, zIndex: 4, z: -75, delay: 0.2 }, // Extreme Left
+    { id: 'p1-4',isStripe: true, w: 597, h: 877, x: 800, y: 80, scale: 3.5, rotate: 2, zIndex: 4, z: -75, delay: 0.2 }, // Extreme Right
     {
-        id: 'p1-slide-1',
-        // 🇨🇳 CHINA OPTIMIZATION: Replaced raw.githubusercontent with jsd.cdn.zzko.cn
+        id: 'p1-5',
+        // 🇨🇳 CHINA OPTIMIZATION
         url: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/tml/tml-ip.webp',
-        x: 50,      
-        y: 20,     
-        scale: 1.25,  
-        rotate: 0,  
-        zIndex: 4,   
-        z: -74,      
-        delay: 0.1   
-    },
-    {
-        id: 'p1-slide-2',
-        url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E4%B8%8A%E4%BE%A7.png',
-        x: 950,      
-        y: 80,       
-        scale: 5,
-        rotate: 2,
-        zIndex: 4,   
-        z: -75,      
-        delay: 0.2
-    },
-    {
-        id: 'p1-slide-3',
-        url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E4%B8%8B%E4%BE%A7.png',
-        x: 400,      
-        y: 80,       
-        scale: 3.5,
-        rotate: 2,
-        zIndex: 4,   
-        z: -76,      
-        delay: 0.2
-    },
-    {
-        id: 'p1-slide-4',
-        url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E5%B7%A6%E4%BE%A7.png',
-        x: 860,      
-        y: 80,       
-        scale: 3.5,
-        rotate: 2,
-        zIndex: 4,   
-        z: -75,      
-        delay: 0.2
-    },
-    {
-        id: 'p1-slide-5',
-        url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E5%B7%A6%E4%BE%A7.png',
-        x: 800,      
-        y: 80,       
-        scale: 3.5,
-        rotate: 2,
-        zIndex: 4,   
-        z: -75,      
-        delay: 0.2
+        x: 50, 
+        y: 20, 
+        scale: 1.25, 
+        rotate: 0, 
+        zIndex: 4, 
+        z: -74, 
+        delay: 0.1,
+        noTint: true 
     }
 ];
 
 const PROJECT_2_HOVER_CONFIG = [
+    { id: 'p2-1', isStripe: true, w: 613, h: 1565, x: 1300, y: -350, scale: 3, rotate: 0, zIndex: 4, z: -75, delay: 0.1 }, // Top Left High
+    { id: 'p2-2', isStripe: true, w: 203, h: 485, x: 100, y: 350, scale: 3, rotate: 0, zIndex: 4, z: -75, delay: 0.1 }, // Bottom Right Low
+    { id: 'p2-3', isStripe: true, w: 597, h: 877, x: -600, y: 0, scale: 3, rotate: 0, zIndex: 4, z: -75, delay: 0.2 }, // Extreme Left
+    { id: 'p2-4', isStripe: true, w: 339, h: 621, x: 400, y: 0, scale: 3, rotate: 0, zIndex: 4, z: -75, delay: 0.2 }, // Extreme Right
     {
-        id: 'p2-top',
-        url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E4%B8%8A%E4%BE%A7.png',
-        x: 1300,      
-        y: -350,   // Top
-        scale: 3,
-        rotate: 0,
-        zIndex: 4, 
-        z: -75,    
-        delay: 0.1
-    },
-    {
-        id: 'p2-bottom',
-        url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E4%B8%8B%E4%BE%A7.png',
-        x: 100,      
-        y: 350,    // Bottom
-        scale: 3,
-        rotate: 0,
-        zIndex: 4, 
-        z: -75,
-        delay: 0.1
-    },
-    {
-        id: 'p2-left',
-        url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E5%B7%A6%E4%BE%A7.png',
-        x: -600,      
-        y: 0,      // Left
-        scale: 3,
-        rotate: 0,
-        zIndex: 4, 
-        z: -75,
-        delay: 0.2
-    },
-    {
-        id: 'p2-right',
-        url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E5%8F%B3%E4%BE%A7.png',
-        x: 400,      
-        y: 0,      // Right
-        scale: 3,
-        rotate: 0,
-        zIndex: 4, 
-        z: -75,
-        delay: 0.2
-    },
-    {
-        id: 'p2-char',
+        id: 'p2-5',
         // 🇨🇳 CHINA OPTIMIZATION
         url: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/roys/roys-ip.webp',
         x: -61,
@@ -168,10 +89,10 @@ const PROJECT_2_HOVER_CONFIG = [
 ];
 
 const PROJECT_3_HOVER_CONFIG = [
-    { id: 'p3-1', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E4%B8%8A%E4%BE%A7.png', x: -450, y: -450, scale: 3.2, rotate: -20, zIndex: 4, z: -75, delay: 0.1 },  // Top Left High
-    { id: 'p3-2', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E4%B8%8B%E4%BE%A7.png', x: 1250, y: 450, scale: 3.2, rotate: 20, zIndex: 4, z: -75, delay: 0.15 }, // Bottom Right Low
-    { id: 'p3-3', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E5%B7%A6%E4%BE%A7.png', x: -50, y: 50, scale: 2.8, rotate: -10, zIndex: 4, z: -75, delay: 0.2 },   // Extreme Left
-    { id: 'p3-4', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E5%8F%B3%E4%BE%A7.png', x: 950, y: -50, scale: 2.8, rotate: 10, zIndex: 4, z: -75, delay: 0.25 },   // Extreme Right
+    { id: 'p3-1', isStripe: true, w: 613, h: 1565, x: -450, y: -450, scale: 3.2, rotate: -20, zIndex: 4, z: -75, delay: 0.1 }, // Top Left High
+    { id: 'p3-2', isStripe: true, w: 203, h: 485, x: 1250, y: 450, scale: 3.2, rotate: 20, zIndex: 4, z: -75, delay: 0.15 }, // Bottom Right Low
+    { id: 'p3-3', isStripe: true, w: 597, h: 877, x: -50, y: 50, scale: 2.8, rotate: -10, zIndex: 4, z: -75, delay: 0.2 }, // Extreme Left
+    { id: 'p3-4', isStripe: true, w: 339, h: 621, x: 950, y: -50, scale: 2.8, rotate: 10, zIndex: 4, z: -75, delay: 0.25 }, // Extreme Right
     { 
         id: 'p3-5', 
         // 🇨🇳 CHINA OPTIMIZATION
@@ -188,10 +109,10 @@ const PROJECT_3_HOVER_CONFIG = [
 ];
 
 const PROJECT_4_HOVER_CONFIG = [
-    { id: 'p4-1', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E4%B8%8A%E4%BE%A7.png', x: 0, y: -500, scale: 3.5, rotate: 0, zIndex: 4, z: -75, delay: 0.1 },    // Top Center
-    { id: 'p4-2', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E4%B8%8B%E4%BE%A7.png', x: 0, y: 500, scale: 3.5, rotate: 0, zIndex: 4, z: -75, delay: 0.1 },     // Bottom Center
-    { id: 'p4-3', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E5%B7%A6%E4%BE%A7.png', x: -850, y: 100, scale: 4.0, rotate: -90, zIndex: 4, z: -75, delay: 0.2 },  // Extreme Left
-    { id: 'p4-4', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E5%8F%B3%E4%BE%A7.png', x: 850, y: 100, scale: 4.0, rotate: 90, zIndex: 4, z: -75, delay: 0.2 },   // Extreme Right
+    { id: 'p4-1', isStripe: true, w: 613, h: 1565, x: 0, y: -500, scale: 3.5, rotate: 0, zIndex: 4, z: -75, delay: 0.1 }, // Top Center
+    { id: 'p4-2', isStripe: true, w: 203, h: 485, x: 0, y: 500, scale: 3.5, rotate: 0, zIndex: 4, z: -75, delay: 0.1 }, // Bottom Center
+    { id: 'p4-3', isStripe: true, w: 597, h: 877, x: -850, y: 100, scale: 4.0, rotate: -90, zIndex: 4, z: -75, delay: 0.2 }, // Extreme Left
+    { id: 'p4-4', isStripe: true, w: 339, h: 621, x: 850, y: 100, scale: 4.0, rotate: 90, zIndex: 4, z: -75, delay: 0.2 }, // Extreme Right
     { 
         id: 'p4-5', 
         // 🇨🇳 CHINA OPTIMIZATION
@@ -208,44 +129,57 @@ const PROJECT_4_HOVER_CONFIG = [
 ];
 
 const PROJECT_5_HOVER_CONFIG = [
-    { id: 'p5-1', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E4%B8%8A%E4%BE%A7.png', x: 950, y: 80, scale: 5, rotate: 2, zIndex: 2, z: -75, delay: 0.1 },
-    { id: 'p5-2', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E4%B8%8B%E4%BE%A7.png', x: 1800, y: 80, scale: 3.5, rotate: 2, zIndex: 4, z: -75, delay: 0.15 },
-    { id: 'p5-3', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E5%B7%A6%E4%BE%A7.png', x: 860, y: 80, scale: 3.5, rotate: 2, zIndex: 4, z: -75, delay: 0.2 },
-    { id: 'p5-4', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E5%B7%A6%E4%BE%A7.png', x: 800, y: 80, scale: 3.5, rotate: 2, zIndex: 4, z: -75, delay: 0.25 },
+    { id: 'p5-1', isStripe: true, w: 613, h: 1565, x: 950, y: 80, scale: 5, rotate: 2, zIndex: 2, z: -75, delay: 0.1 }, // Top Center
+    { id: 'p5-2', isStripe: true, w: 203, h: 485, x: 1800, y: 80, scale: 3.5, rotate: 2, zIndex: 4, z: -75, delay: 0.15 }, // Bottom Center
+    { id: 'p5-3', isStripe: true, w: 597, h: 877, x: 860, y: 80, scale: 3.5, rotate: 2, zIndex: 4, z: -75, delay: 0.2 }, // Extreme Left
+    { id: 'p5-4', isStripe: true, w: 597, h: 877, x: 800, y: 80, scale: 3.5, rotate: 2, zIndex: 4, z: -75, delay: 0.25 }, // Extreme Right
     { 
         id: 'p5-5', 
         // 🇨🇳 CHINA OPTIMIZATION
         url: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/farmacy/farmacy-ip.webp', 
-        x: 0, 
-        y: -450, 
+        x: 50, 
+        y: -200, 
         scale: 0.7, 
         rotate: 0, 
         zIndex: 4, 
-        z: -76, 
+        z: -74, 
         delay: 0.25, 
         noTint: true 
     },
 ];
 
 const PROJECT_6_HOVER_CONFIG = [
-    { id: 'p6-1', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E4%B8%8A%E4%BE%A7.png', x: 0, y: -380, scale: 3, rotate: 180, zIndex: 4, z: -75, delay: 0.1 },
-    { id: 'p6-2', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E4%B8%8B%E4%BE%A7.png', x: 0, y: 380, scale: 3, rotate: 0, zIndex: 4, z: -75, delay: 0.1 },
-    { id: 'p6-3', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E5%B7%A6%E4%BE%A7.png', x: -600, y: -100, scale: 2.8, rotate: -45, zIndex: 4, z: -75, delay: 0.2 },
-    { id: 'p6-4', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E5%B7%A6%E4%BE%A7.png', x: 600, y: 100, scale: 2.8, rotate: 45, zIndex: 4, z: -75, delay: 0.2 },
+    { id: 'p6-1', isStripe: true, w: 613, h: 1565, x: 0, y: -380, scale: 3, rotate: 180, zIndex: 4, z: -75, delay: 0.1 }, // Top Center
+    { id: 'p6-2', isStripe: true, w: 203, h: 485, x: 0, y: 380, scale: 3, rotate: 0, zIndex: 4, z: -75, delay: 0.1 }, // Bottom Center
+    { id: 'p6-3', isStripe: true, w: 597, h: 877, x: -600, y: -100, scale: 2.8, rotate: -45, zIndex: 4, z: -75, delay: 0.2 }, // Extreme Left
+    { id: 'p6-4', isStripe: true, w: 597, h: 877, x: 600, y: 100, scale: 2.8, rotate: 45, zIndex: 4, z: -75, delay: 0.2 }, // Extreme Right
+    {
+        id: 'p6-5',
+        // 🇨🇳 CHINA OPTIMIZATION
+        url: 'https://hf-1259323808.cos.ap-shanghai.myqcloud.com/images/zpj/nxcc/nxcc-ip.webp',
+        x: -300, 
+        y: -100, 
+        scale: 1.25, 
+        rotate: 0, 
+        zIndex: 4, 
+        z: -74, 
+        delay: 0.1,
+        noTint: true 
+    }
 ];
 
 const PROJECT_7_HOVER_CONFIG = [
-    { id: 'p7-1', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E4%B8%8A%E4%BE%A7.png', x: 1200, y: -450, scale: 3.8, rotate: 20, zIndex: 4, z: -75, delay: 0.1 },   // Extreme Top Right
-    { id: 'p7-2', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E4%B8%8B%E4%BE%A7.png', x: -400, y: 450, scale: 3.8, rotate: -20, zIndex: 4, z: -75, delay: 0.1 },  // Extreme Bottom Left
-    { id: 'p7-3', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E5%B7%A6%E4%BE%A7.png', x: 50, y: 150, scale: 3.0, rotate: -10, zIndex: 4, z: -75, delay: 0.2 },   // Mid Left
-    { id: 'p7-4', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E5%B7%A6%E4%BE%A7.png', x: 750, y: -150, scale: 3.0, rotate: 10, zIndex: 4, z: -75, delay: 0.2 },    // Mid Right
+    { id: 'p7-1', isStripe: true, w: 613, h: 1565, x: 1200, y: -450, scale: 3.8, rotate: 20, zIndex: 4, z: -75, delay: 0.1 }, // Extreme Top Right
+    { id: 'p7-2', isStripe: true, w: 203, h: 485, x: -400, y: 450, scale: 3.8, rotate: -20, zIndex: 4, z: -75, delay: 0.1 }, // Extreme Bottom Left
+    { id: 'p7-3', isStripe: true, w: 597, h: 877, x: 50, y: 150, scale: 3.0, rotate: -10, zIndex: 4, z: -75, delay: 0.2 }, // Mid Left
+    { id: 'p7-4', isStripe: true, w: 597, h: 877, x: 750, y: -150, scale: 3.0, rotate: 10, zIndex: 4, z: -75, delay: 0.2 }, // Mid Right
 ];
 
 const PROJECT_8_HOVER_CONFIG = [
-    { id: 'p8-1', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E4%B8%8A%E4%BE%A7.png', x: 0, y: -350, scale: 3.0, rotate: -30, zIndex: 4, z: -75, delay: 0.1 }, // Top Left
-    { id: 'p8-2', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E4%B8%8B%E4%BE%A7.png', x: 1400, y: 350, scale: 3.0, rotate: -30, zIndex: 4, z: -75, delay: 0.1 },  // Bottom Right
-    { id: 'p8-3', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E5%B7%A6%E4%BE%A7.png', x: 0, y: 350, scale: 3.0, rotate: 30, zIndex: 4, z: -75, delay: 0.2 },   // Bottom Left
-    { id: 'p8-4', url: 'https://jsd.cdn.zzko.cn/gh/jayneysil520-dev/jayneysil@main/remain/%E5%B7%A6%E4%BE%A7.png', x: 1400, y: -350, scale: 3.0, rotate: 30, zIndex: 4, z: -75, delay: 0.2 },   // Top Right
+    { id: 'p8-1', isStripe: true, w: 613, h: 1565, x: 0, y: -350, scale: 3.0, rotate: -30, zIndex: 4, z: -75, delay: 0.1 }, // Top Left
+    { id: 'p8-2', isStripe: true, w: 203, h: 485, x: 1400, y: 350, scale: 3.0, rotate: -30, zIndex: 4, z: -75, delay: 0.1 }, // Bottom Right
+    { id: 'p8-3', isStripe: true, w: 597, h: 877, x: 0, y: 350, scale: 3.0, rotate: 30, zIndex: 4, z: -75, delay: 0.2 }, // Bottom Left
+    { id: 'p8-4', isStripe: true, w: 597, h: 877, x: 1400, y: -350, scale: 3.0, rotate: 30, zIndex: 4, z: -75, delay: 0.2 }, // Top Right
 ];
 
 // 🔒 LOCKED DATA END --------------------------------------
@@ -1788,7 +1722,57 @@ const VinylProjects: React.FC = () => {
 
                         {/* 🟢 NEW: PROJECT 1 SPECIAL HOVER IMAGES (Unique entrance from Right) */}
                         <AnimatePresence>
-                             {hoveredProject?.id === 1 && PROJECT_1_HOVER_CONFIG.map((img) => (
+                             {hoveredProject?.id === 1 && PROJECT_1_HOVER_CONFIG.map((img) => {
+                                 const isCodeStripe = img.isStripe;
+                                 if (isCodeStripe) {
+                                     let w = img.w || 600, h = img.h || 600;
+
+                                     return (
+                                        <motion.div
+                                           key={img.id}
+                                           className="absolute pointer-events-none drop-shadow-2xl rounded-[100px]"
+                                           style={{
+                                               zIndex: img.zIndex, 
+                                               transformStyle: "preserve-3d",
+                                               backgroundColor: hoveredProject.color,
+                                               width: `${w}px`,
+                                               height: `${h}px`,
+                                               transform: `translateZ(${img.z}px)` 
+                                           }}
+                                           initial={{ 
+                                               x: 1200, 
+                                               y: img.y, 
+                                               z: img.z, 
+                                               scale: img.scale, 
+                                               rotate: img.rotate + 15, 
+                                               opacity: 0 
+                                           }}
+                                           animate={{ 
+                                               x: img.x, 
+                                               y: img.y, 
+                                               z: img.z, 
+                                               scale: img.scale, 
+                                               rotate: img.rotate, 
+                                               opacity: 0.9 
+                                           }}
+                                           exit={{ 
+                                               x: 1200, 
+                                               z: img.z, 
+                                               opacity: 0, 
+                                               rotate: img.rotate + 15,
+                                               transition: { duration: 0.4, ease: "easeIn" }
+                                           }}
+                                           transition={{ 
+                                               type: "spring", 
+                                               stiffness: 60, 
+                                               damping: 15, 
+                                               delay: img.delay 
+                                           }}
+                                        />
+                                     );
+                                 }
+
+                                 return (
                                  <motion.img
                                     key={img.id}
                                     src={img.url}
@@ -1830,12 +1814,60 @@ const VinylProjects: React.FC = () => {
                                         delay: img.delay 
                                     }}
                                 />
-                             ))}
+                                );
+                             })}
                         </AnimatePresence>
 
                         {/* 🟢 NEW: PROJECT 2-8 SPECIAL HOVER IMAGES (Explode from Center) */}
                         <AnimatePresence>
                              {hoveredProject && hoveredProject.id !== 1 && HOVER_CONFIGS[hoveredProject.id] && HOVER_CONFIGS[hoveredProject.id].map((img) => {
+                                 const isCodeStripe = img.isStripe;
+                                 if (isCodeStripe) {
+                                     let w = img.w || 600, h = img.h || 600;
+
+                                     return (
+                                        <motion.div
+                                           key={img.id}
+                                           className="absolute pointer-events-none drop-shadow-2xl rounded-[100px]"
+                                           style={{
+                                               zIndex: img.zIndex, 
+                                               transformStyle: "preserve-3d",
+                                               transform: `translateZ(${img.z}px)`,
+                                               backgroundColor: hoveredProject.color,
+                                               width: `${w}px`,
+                                               height: `${h}px`
+                                           }}
+                                           initial={{ 
+                                               x: 0, 
+                                               y: 0,
+                                               z: img.z,
+                                               scale: 0.1, 
+                                               opacity: 0,
+                                               rotate: Math.random() * 20 - 10
+                                           }}
+                                           animate={{ 
+                                               x: img.x, 
+                                               y: img.y, 
+                                               z: img.z,
+                                               scale: img.scale, 
+                                               opacity: 0.9,
+                                               rotate: img.rotate
+                                           }}
+                                           exit={{ 
+                                               scale: 0.1,
+                                               opacity: 0,
+                                               transition: { duration: 0.3 }
+                                           }}
+                                           transition={{ 
+                                               type: "spring", 
+                                               stiffness: 60, 
+                                               damping: 15, 
+                                               delay: img.delay 
+                                           }}
+                                       />
+                                     );
+                                 }
+
                                  // Determine the correct filter ID based on the project ID
                                  // 🟢 CHECK 'noTint' PROPERTY HERE
                                  const tintFilter = (hoveredProject && PROJECT_TINTS[hoveredProject.id] && !img.noTint) 
