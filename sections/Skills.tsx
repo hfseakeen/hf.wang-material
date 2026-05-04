@@ -3,6 +3,51 @@ import React, { useRef, useState, useMemo, useEffect } from 'react';
 import { motion, useTransform, useMotionValue, useSpring, useScroll, useMotionTemplate, AnimatePresence } from 'framer-motion';
 import Magnetic from '../components/Magnetic';
 
+const VideoPlayer = ({ src, className }: { src: string, className?: string }) => {
+    const videoRef = useRef<HTMLVideoElement>(null);
+    useEffect(() => {
+        const video = videoRef.current;
+        if (video) {
+            video.muted = true;
+            video.defaultMuted = true;
+            video.setAttribute('muted', '');
+            video.setAttribute('playsinline', '');
+            
+            const attemptPlay = () => {
+                video.play().catch(() => {});
+            };
+            
+            attemptPlay();
+            
+            // For WeChat
+            document.addEventListener("WeixinJSBridgeReady", attemptPlay, false);
+            document.addEventListener('touchstart', attemptPlay, { once: true });
+            
+            return () => {
+                document.removeEventListener("WeixinJSBridgeReady", attemptPlay, false);
+                // removeEventListener doesn't fully support {once: true} cleanup via touchstart if function ref changes, but it's fine
+            }
+        }
+    }, [src]);
+
+    return (
+        <video 
+            ref={videoRef}
+            src={src}
+            autoPlay
+            loop
+            muted
+            playsInline
+            webkit-playsinline="true" 
+            x5-playsinline="true" 
+            x5-video-player-type="h5" 
+            x5-video-player-fullscreen="false"
+            preload="auto"
+            className={`bg-gray-100 ${className || ''}`}
+        />
+    )
+}
+
 // ==========================================
 // 🟢 CONFIGURATION: GLOBAL ZOOM & LAYOUT
 // ==========================================
@@ -348,19 +393,6 @@ const Skills: React.FC = () => {
 
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["35deg", "25deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-5deg", "5deg"]);
-
-  useEffect(() => {
-        const forcePlayVideos = () => {
-            const videos = document.querySelectorAll('video');
-            videos.forEach(video => {
-                video.play().catch(() => {});
-            });
-        };
-        document.addEventListener("WeixinJSBridgeReady", forcePlayVideos, false);
-        return () => {
-            document.removeEventListener("WeixinJSBridgeReady", forcePlayVideos, false);
-        };
-  }, []);
   const translateX = useTransform(mouseXSpring, [-0.5, 0.5], ["-2%", "2%"]);
 
   return (
@@ -399,18 +431,7 @@ const Skills: React.FC = () => {
                         {(skill.videoUrl || (skill as any).previewImg) ? (
                             <div className="w-full aspect-video rounded-xl overflow-hidden mt-2 border border-gray-100 relative">
                                 {skill.videoUrl ? (
-                                    <video 
-                                        src={skill.videoUrl} 
-                                        autoPlay 
-                                        loop 
-                                        muted 
-                                        playsInline 
-                                        webkit-playsinline="true" 
-                                        x5-playsinline="true" 
-                                        x5-video-player-type="h5" 
-                                        x5-video-player-fullscreen="false"
-                                        className="w-full h-full object-cover" 
-                                    />
+                                    <VideoPlayer src={skill.videoUrl} className="w-full h-full object-cover" />
                                 ) : (
                                     <img src={(skill as any).previewImg} className="w-full h-full object-cover" />
                                 )}
@@ -551,20 +572,7 @@ const Skills: React.FC = () => {
                             <div className="w-full h-full bg-white p-3 rounded-[2rem] shadow-2xl border border-gray-100">
                                 <div className="w-full h-full rounded-[1.5rem] overflow-hidden bg-gray-200 relative">
                                     {hoveredSkill.videoUrl ? (
-                                        <video 
-                                            key={hoveredSkill.videoUrl} 
-                                            src={hoveredSkill.videoUrl}
-                                            autoPlay
-                                            loop
-                                            muted
-                                            playsInline
-                                            webkit-playsinline="true" 
-                                            x5-playsinline="true" 
-                                            x5-video-player-type="h5" 
-                                            x5-video-player-fullscreen="false"
-                                            preload="auto"
-                                            className="w-full h-full object-cover"
-                                        />
+                                        <VideoPlayer src={hoveredSkill.videoUrl} className="w-full h-full object-cover" />
                                     ) : (
                                         <img 
                                             src={hoveredSkill.previewImg} 
