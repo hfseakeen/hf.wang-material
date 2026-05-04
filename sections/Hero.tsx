@@ -309,6 +309,17 @@ const Hero: React.FC = () => {
 
     const floorY = useTransform(scrollYProgress, [0, 1], ["0%", "-40%"]);
     
+    // 🟢 NEW: Global Music & Navbar control Logic based on Modal State
+    useEffect(() => {
+        if (activeVideo) {
+            window.dispatchEvent(new Event('pause-background-music'));
+            window.dispatchEvent(new Event('hide-navbar'));
+        } else {
+            window.dispatchEvent(new Event('resume-background-music'));
+            window.dispatchEvent(new Event('show-navbar'));
+        }
+    }, [activeVideo]);
+
     const x = useMotionValue(0);
     const y = useMotionValue(0);
     const mouseXSpring = useSpring(x, { stiffness: 40, damping: 20 });

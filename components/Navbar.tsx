@@ -49,7 +49,10 @@ const Navbar: React.FC = () => {
 
   // 🟢 NEW: Listen for global hide/show events (e.g., from modals)
   useEffect(() => {
-    const handleHide = () => setIsHidden(true);
+    const handleHide = () => {
+        setIsHidden(true);
+        setIsMobileMenuOpen(false);
+    };
     const handleShow = () => setIsHidden(false);
     
     window.addEventListener('hide-navbar', handleHide);
@@ -96,14 +99,19 @@ const Navbar: React.FC = () => {
   return (
     <>
     <motion.nav
-      className="fixed top-0 left-0 w-full z-50 px-6 py-6 md:px-8 flex justify-between items-center transition-all duration-500 pointer-events-none"
+      className="fixed top-0 left-0 w-full z-[100] px-6 py-6 md:px-8 flex justify-between items-center transition-all duration-500"
       initial={{ opacity: 1 }}
       animate={{ 
         opacity: isHidden ? 0 : 1,
         y: isHidden ? -20 : 0,
         backgroundColor: isScrolled ? "rgba(255,255,255,0.01)" : "transparent",
+        transitionEnd: {
+            visibility: isHidden ? 'hidden' : 'visible'
+        }
       }}
-      style={{ pointerEvents: isHidden ? 'none' : 'auto' } as any}
+      style={{ 
+          pointerEvents: isHidden ? 'none' : 'auto'
+      } as any}
     >
       <div 
         className="absolute inset-0 z-[-1] transition-all duration-500 pointer-events-none"
@@ -179,7 +187,7 @@ const Navbar: React.FC = () => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="fixed inset-0 z-[40] bg-white pt-24 px-6 md:hidden flex flex-col gap-6 items-center shadow-xl"
+                className="fixed inset-0 z-[90] bg-white pt-24 px-6 md:hidden flex flex-col gap-6 items-center shadow-xl"
             >
                 {navLinks.map((link) => (
                     <a
