@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { motion, useScroll, useTransform, useSpring, useMotionValue, useMotionTemplate, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Download, X } from 'lucide-react';
 
 // 🟢 👇 PASTE YOUR RESUME PDF LINK HERE
@@ -364,11 +364,11 @@ const Contact: React.FC = () => {
                 <h2 className="text-4xl font-albert-black text-gray-200 tracking-tighter mb-12 self-start">联系我</h2>
                 
                 <div className="flex flex-col gap-4 w-full">
-                    {CONTACT_CARDS.map((card, idx) => (
+                    {CONTACT_CARDS.map((card) => (
                         <div 
                             key={card.id}
                             className="w-full bg-white border border-gray-200 rounded-[1.5rem] p-6 shadow-sm flex flex-col items-center gap-4 hover:shadow-md transition-shadow active:scale-[0.98]"
-                            onClick={(e) => {
+                            onClick={() => {
                                 if (card.isResume) {
                                     setResumeOpen(true);
                                 } else {

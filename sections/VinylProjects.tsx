@@ -1,17 +1,11 @@
 
 import React, { useState, useRef, useMemo, useEffect } from 'react';
-import { motion, AnimatePresence, useTransform, useMotionValue, useSpring, useScroll, useMotionTemplate, Variants } from 'framer-motion';
+import { motion, AnimatePresence, useTransform, useMotionValue, useSpring, useScroll, useMotionTemplate } from 'framer-motion';
 import { createPortal } from 'react-dom'; 
 import Spotlight3D from '../components/Spotlight3D';
 
 // 🔒 DATA IMPORTED FROM SEPARATE FILE TO PREVENT OVERWRITING
 import {
-    ASSETS,
-    MY_CUSTOM_LONG_IMAGE,
-    CUSTOM_FOX_RABBIT_CONFIG,
-    WAVE_IMAGES_CONFIG,
-    GROUP_1_CARDS_DATA,
-    CUSTOM_NEW_IMAGES,
     TOOL_ICONS,
     PROJECTS_DATA
 } from '../data/vinylProjectData';
@@ -184,16 +178,7 @@ const PROJECT_8_HOVER_CONFIG = [
 
 // 🔒 LOCKED DATA END --------------------------------------
 
-const HOVER_CONFIGS: Record<number, any[]> = {
-    1: PROJECT_1_HOVER_CONFIG,
-    2: PROJECT_2_HOVER_CONFIG,
-    3: PROJECT_3_HOVER_CONFIG,
-    4: PROJECT_4_HOVER_CONFIG,
-    5: PROJECT_5_HOVER_CONFIG,
-    6: PROJECT_6_HOVER_CONFIG,
-    7: PROJECT_7_HOVER_CONFIG,
-    8: PROJECT_8_HOVER_CONFIG,
-};
+
 
 // 🟢 2. GLOBAL SCALE: Adjusts the zoom level of the entire section
 const PROJECTS_SCALE = 0.7;
@@ -249,121 +234,6 @@ const FloorMarquee: React.FC<{ direction: 'left' | 'right', text: string, classN
         </div>
     );
 });
-
-const HoverCard: React.FC<{
-    img: string;
-    style?: React.CSSProperties;
-    borderRadius?: string;
-    baseRotate?: number;
-    popOnHover?: boolean;
-}> = ({ img, style, borderRadius = '0px', baseRotate = 0, popOnHover = true }) => {
-    return (
-        <motion.div
-            style={style}
-            initial={{ rotate: baseRotate }}
-            whileHover={popOnHover ? { scale: 1.05, rotate: 0, zIndex: 100 } : undefined}
-            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className="origin-center"
-        >
-            <img 
-                src={img} 
-                alt="Decoration" 
-                style={{ 
-                    borderRadius: borderRadius, 
-                    width: '100%', 
-                    height: '100%', 
-                    objectFit: 'cover',
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
-                }} 
-            />
-        </motion.div>
-    );
-};
-
-const ScrollImageSequence: React.FC<{ config: any, scrollContainerRef: React.RefObject<HTMLDivElement> }> = ({ config, scrollContainerRef }) => {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-    const imagesRef = useRef<HTMLImageElement[]>([]);
-    const [loaded, setLoaded] = useState(false);
-
-    useEffect(() => {
-        const imgs: HTMLImageElement[] = [];
-        let count = 0;
-        for (let i = 0; i < config.frameCount; i++) {
-            const img = new Image();
-            const idx = config.startIndex + i;
-            const idxStr = String(idx).padStart(config.digits, '0');
-            img.src = `${config.baseUrl}${idxStr}${config.suffix}`;
-            img.onload = () => {
-                count++;
-                if (count === config.frameCount) setLoaded(true);
-            };
-            imgs.push(img);
-        }
-        imagesRef.current = imgs;
-    }, [config]);
-
-    useEffect(() => {
-        if (!loaded) return;
-        
-        const render = () => {
-             if (!containerRef.current || !canvasRef.current || !scrollContainerRef.current) return;
-             
-             const containerRect = containerRef.current.getBoundingClientRect();
-             const viewportHeight = window.innerHeight;
-             
-             let progress = (viewportHeight - containerRect.top) / (viewportHeight + containerRect.height);
-             
-             if (progress < 0) progress = 0;
-             if (progress > 1) progress = 1;
-             
-             const frameIndex = Math.min(
-                 config.frameCount - 1,
-                 Math.floor(progress * config.frameCount)
-             );
-             
-             const img = imagesRef.current[frameIndex];
-             const ctx = canvasRef.current.getContext('2d');
-             
-             if (ctx && img) {
-                 const canvas = canvasRef.current;
-                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                 
-                 const imgRatio = img.width / img.height;
-                 const canvasRatio = canvas.width / canvas.height;
-                 
-                 let renderW, renderH, offsetX, offsetY;
-                 
-                 if (imgRatio > canvasRatio) {
-                     renderH = canvas.height;
-                     renderW = renderH * imgRatio;
-                     offsetX = (canvas.width - renderW) / 2;
-                     offsetY = 0;
-                 } else {
-                     renderW = canvas.width;
-                     renderH = renderW / imgRatio;
-                     offsetX = 0;
-                     offsetY = (canvas.height - renderH) / 2;
-                 }
-                 
-                 ctx.drawImage(img, offsetX, offsetY, renderW, renderH);
-             }
-             
-             requestAnimationFrame(render);
-        };
-        
-        const rafId = requestAnimationFrame(render);
-        return () => cancelAnimationFrame(rafId);
-    }, [loaded, scrollContainerRef, config]);
-
-    return (
-        <div ref={containerRef} style={{ height: '400vh', position: 'relative' }}>
-             <div className="sticky top-0 h-screen w-full flex items-center justify-center bg-black">
-                 <canvas ref={canvasRef} width={1920} height={1080} className="w-full h-full object-contain" />
-             </div>
-        </div>
-    );
-};
 
 // 🟢 NEW: Component for Project 2 Video Interaction (Flip to Play) - Now with Fullscreen support
 const Project2FlipVideo: React.FC<{ config: any }> = ({ config }) => {
@@ -578,7 +448,6 @@ const Project2FlipVideo: React.FC<{ config: any }> = ({ config }) => {
 const AbsoluteClickableVideo: React.FC<{ url: string, scale?: number, style?: React.CSSProperties }> = ({ url, scale = 1, style }) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const fullscreenVideoRef = useRef<HTMLVideoElement>(null);
-    const [isPlaying, setIsPlaying] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -592,7 +461,6 @@ const AbsoluteClickableVideo: React.FC<{ url: string, scale?: number, style?: Re
     const closeFullscreen = (e?: any) => {
         if (e && e.stopPropagation) e.stopPropagation();
         setIsFullscreen(false);
-        setIsPlaying(false);
         // Resume background music only if we aren't in another video context
         window.dispatchEvent(new Event('resume-background-music'));
         window.dispatchEvent(new Event('show-navbar'));
@@ -602,7 +470,6 @@ const AbsoluteClickableVideo: React.FC<{ url: string, scale?: number, style?: Re
     useEffect(() => {
         if (isFullscreen && fullscreenVideoRef.current) {
             fullscreenVideoRef.current.play().catch(e => console.error("Fullscreen play failed", e));
-            setIsPlaying(true);
         }
     }, [isFullscreen]);
 
@@ -1329,18 +1196,6 @@ const ProjectImageSquare: React.FC<{
 // --- UPDATED COMPONENT: Gallery Modal View ---
 const GalleryModalView: React.FC<{ images: string[], projectId?: number, project?: any }> = ({ images, projectId, project }) => {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
-    const [scrollVal, setScrollVal] = useState(0);
-    const [mouseVal, setMouseVal] = useState(0);
-
-    const handleScroll = () => {
-        if (scrollContainerRef.current) {
-            setScrollVal(Math.round(scrollContainerRef.current.scrollTop));
-        }
-    };
-
-    const handleMouseMove = (e: React.MouseEvent) => {
-        setMouseVal(Math.round(e.clientX));
-    };
 
     // 🟢 Special Render for Horizontal Scroll Project (Project 6)
     if (project?.layout === 'horizontal-scroll' && project.horizontalData) {
@@ -1363,8 +1218,6 @@ const GalleryModalView: React.FC<{ images: string[], projectId?: number, project
             {/* 🟢 SCROLLABLE AREA */}
             <div
                 ref={scrollContainerRef}
-                onScroll={handleScroll}
-                onMouseMove={handleMouseMove}
                 className="w-full h-full overflow-y-auto overflow-x-hidden floating-scrollbar relative z-10 p-0"
             >
                 {/* Real-time Indicator removed */}

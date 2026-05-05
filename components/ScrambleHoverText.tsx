@@ -3,12 +3,11 @@ import React, { useRef, useState } from 'react';
 interface ScrambleHoverTextProps {
   text: string;
   className?: string;
-  delay?: number;
 }
 
 const CHARS = "-_~`!@#$%^&*()+=[]{}|;:,.<>?/0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-const ScrambleHoverText: React.FC<ScrambleHoverTextProps> = ({ text, className = "", delay = 0 }) => {
+const ScrambleHoverText: React.FC<ScrambleHoverTextProps> = ({ text, className = "" }) => {
   const [displayText, setDisplayText] = useState(text);
   const [isHovering, setIsHovering] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -22,10 +21,10 @@ const ScrambleHoverText: React.FC<ScrambleHoverTextProps> = ({ text, className =
     }
 
     intervalRef.current = setInterval(() => {
-      setDisplayText(prev => 
+      setDisplayText(
         text
           .split("")
-          .map((letter, index) => {
+          .map((_, index) => {
             if (index < iteration) {
               return text[index];
             }

@@ -556,7 +556,7 @@ const Profile: React.FC<{ forceOpenModal?: boolean, setForceOpenModal?: (open: b
                 </div>
 
                 <div className="flex flex-col w-full gap-6">
-                    {experienceData.map((item, idx) => (
+                    {experienceData.map((item) => (
                         <div 
                             key={item.id}
                             onClick={() => setSelectedExp(item)}

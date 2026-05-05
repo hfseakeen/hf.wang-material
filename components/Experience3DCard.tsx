@@ -10,7 +10,6 @@ interface Experience3DCardProps {
 const Experience3DCard: React.FC<Experience3DCardProps> = ({ item, onClick }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -38,13 +37,11 @@ const Experience3DCard: React.FC<Experience3DCardProps> = ({ item, onClick }) =>
     y.set(yPct);
 
     setPosition({ x: mouseX, y: mouseY });
-    setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
     x.set(0);
     y.set(0);
-    setIsHovered(false);
   };
 
   return (

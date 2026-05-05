@@ -37,7 +37,6 @@ const Spotlight3D: React.FC<Spotlight3DProps> = ({
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-12deg", "12deg"]);
 
   // Create dynamic gradient string without re-rendering component
-  const maskImage = useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, black, transparent)`;
   const gradientBg = useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, ${spotlightColor}, transparent 40%)`;
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
